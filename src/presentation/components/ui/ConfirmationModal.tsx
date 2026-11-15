@@ -27,7 +27,7 @@ export function ConfirmationModal({
 }: ConfirmationModalProps) {
   if (!visible) return null;
 
-  const confirmColor = destructive ? colors.orange : colors.blue;
+  const confirmColor = destructive ? colors.coral : colors.cobalto;
 
   return (
     <View style={styles.backdrop} onStartShouldSetResponder={() => true} onMoveShouldSetResponder={() => true}>
@@ -47,7 +47,7 @@ export function ConfirmationModal({
             accessibilityRole="button"
             hitSlop={12}
           >
-            <Typography variant="label" color={colors.ink}>{cancelText}</Typography>
+            <Typography variant="label" color={colors.tinta}>{cancelText}</Typography>
           </Pressable>
           <Pressable
             style={[styles.confirmButton, destructive && styles.confirmButtonDestructive]}
@@ -68,7 +68,7 @@ export function ConfirmationModal({
 const styles = StyleSheet.create({
   backdrop: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: colors.ink + '80',
+    backgroundColor: colors.tinta + '80',
     zIndex: 1000,
     justifyContent: 'center',
     alignItems: 'center',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     padding: 24,
     width: '100%',
     maxWidth: 360,
-    shadowColor: colors.ink,
+    shadowColor: colors.tinta,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.2,
     shadowRadius: 16,
@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: radius.md,
-    backgroundColor: colors.blue,
+    backgroundColor: colors.cobalto,
     minWidth: 100,
     alignItems: 'center',
   },
   confirmButtonDestructive: {
-    backgroundColor: colors.orange,
+    backgroundColor: colors.coral,
   },
 });

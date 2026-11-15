@@ -10,5 +10,5 @@ export function BlueHeader({ children, style, height = 140 }: { children: ReactN
 }
 
 const styles = StyleSheet.create({
-  root: { backgroundColor: colors.blue, paddingHorizontal: spacing.screen, paddingBottom: 12 },
+  root: { backgroundColor: colors.cobalto, paddingHorizontal: spacing.screen, paddingBottom: 12 },
 });

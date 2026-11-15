@@ -4,7 +4,7 @@ import { colors } from '../../../core/theme';
 import { Typography } from './Typography';
 
 type Tone = 'success' | 'accent';
-const toneColor: Record<Tone, string> = { success: colors.green, accent: colors.orange };
+const toneColor: Record<Tone, string> = { success: colors.menta, accent: colors.coral };
 
 /** Bolinha + texto de status. `success` = Menta (só para "confirmado"). */
 export const StatusLabel = memo(function StatusLabel({ label, tone }: { label: string; tone: Tone }) {

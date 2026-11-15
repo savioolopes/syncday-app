@@ -85,7 +85,7 @@ export default function ProfileSelectionScreen() {
                 accessibilityRole="menuitem"
                 hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
               >
-                <Typography variant="label" color={colors.orange}>Sair</Typography>
+                <Typography variant="label" color={colors.coral}>Sair</Typography>
               </Pressable>
             </View>
           </Pressable>
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   microCopy: { textAlign: 'center', marginTop: 8 },
   userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
   userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
-  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.ink, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
+  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
-  userMenuItemDestructive: { backgroundColor: colors.orange + '10' },
+  userMenuItemDestructive: { backgroundColor: colors.coral + '10' },
 });

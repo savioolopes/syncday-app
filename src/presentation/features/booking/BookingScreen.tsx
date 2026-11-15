@@ -84,7 +84,7 @@ function BookingScreenContent() {
                   accessibilityRole="menuitem"
                   hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
                 >
-                  <Typography variant="label" color={colors.ink}>Trocar perfil</Typography>
+                  <Typography variant="label" color={colors.tinta}>Trocar perfil</Typography>
                 </Pressable>
               ) : null}
               <Pressable
@@ -93,7 +93,7 @@ function BookingScreenContent() {
                 accessibilityRole="menuitem"
                 hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
               >
-                <Typography variant="label" color={colors.orange}>Sair</Typography>
+                <Typography variant="label" color={colors.coral}>Sair</Typography>
               </Pressable>
             </View>
           </Pressable>
@@ -135,7 +135,7 @@ function BookingScreenContent() {
           <View>
             <Typography variant="heading">Escolha um serviço</Typography>
             {booking.loadingServices ? <LoadingState /> : null}
-            {booking.servicesError ? <Typography variant="body" color={colors.orange}>{booking.servicesError}</Typography> : null}
+            {booking.servicesError ? <Typography variant="body" color={colors.coral}>{booking.servicesError}</Typography> : null}
             {!booking.loadingServices && booking.services.length === 0
               ? <EmptyState message="Nenhuma grade ativa foi encontrada na API." />
               : null}
@@ -197,7 +197,7 @@ function BookingScreenContent() {
             {booking.loadingSlots ? <LoadingState /> : null}
             {booking.slotsError ? (
               <View style={styles.slotError}>
-                <Typography variant="body" color={colors.orange}>{booking.slotsError}</Typography>
+                <Typography variant="body" color={colors.coral}>{booking.slotsError}</Typography>
                 <Button label="Tentar novamente" variant="outline" onPress={booking.reloadSlots} />
               </View>
             ) : null}
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
   userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
   userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
-  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.ink, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
+  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
-  userMenuItemDestructive: { backgroundColor: colors.orange + '10' },
+  userMenuItemDestructive: { backgroundColor: colors.coral + '10' },
 });

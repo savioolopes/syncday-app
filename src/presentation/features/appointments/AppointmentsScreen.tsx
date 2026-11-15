@@ -22,7 +22,7 @@ import { usePreventAutoFocus } from '../../hooks/usePreventAutoFocus';
 import { AuthGuard } from '../../components/auth/AuthGuard';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 
-const ACCENTS = [colors.blue, colors.orange, colors.ink];
+const ACCENTS = [colors.cobalto, colors.coral, colors.tinta];
 
 function AppointmentsScreenContent() {
   const router = useRouter();
@@ -108,7 +108,7 @@ function AppointmentsScreenContent() {
                 onPress={() => { closeMenu(); void openProfile(); }}
                 accessibilityRole="menuitem"
               >
-                <Typography variant="label" color={colors.ink}>Meu perfil</Typography>
+                <Typography variant="label" color={colors.tinta}>Meu perfil</Typography>
               </Pressable>
               {session && hasBothProfiles(session.profiles) ? (
                 <Pressable
@@ -116,7 +116,7 @@ function AppointmentsScreenContent() {
                   onPress={() => { closeMenu(); void switchProfile(); }}
                   accessibilityRole="menuitem"
                 >
-                  <Typography variant="label" color={colors.ink}>Trocar perfil</Typography>
+                  <Typography variant="label" color={colors.tinta}>Trocar perfil</Typography>
                 </Pressable>
               ) : null}
               <Pressable
@@ -124,7 +124,7 @@ function AppointmentsScreenContent() {
                 onPress={() => { closeMenu(); void signOut().catch((error) => toast.show(getUserFriendlyErrorMessage(error))); }}
                 accessibilityRole="menuitem"
               >
-                <Typography variant="label" color={colors.orange}>Sair</Typography>
+                <Typography variant="label" color={colors.coral}>Sair</Typography>
               </Pressable>
             </View>
           </Pressable>
@@ -217,8 +217,8 @@ const styles = StyleSheet.create({
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
   userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
   userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
-  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.ink, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
+  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
-  userMenuItemDestructive: { backgroundColor: colors.orange + '10' },
+  userMenuItemDestructive: { backgroundColor: colors.coral + '10' },
   spacer: { width: 36 },
 });

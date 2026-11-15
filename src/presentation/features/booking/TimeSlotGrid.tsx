@@ -19,7 +19,7 @@ export function TimeSlotGrid({ slots, selected, onSelect }: Props) {
     <View style={styles.grid}>
       {slots.map((slot) => {
         const active = slot.time === selected;
-        const textColor = !slot.available ? colors.disabledText : active ? colors.white : colors.ink;
+        const textColor = !slot.available ? colors.muted : active ? colors.white : colors.tinta;
         return (
           <SelectableTile
             key={slot.time}

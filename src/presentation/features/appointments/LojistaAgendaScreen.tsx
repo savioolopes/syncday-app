@@ -23,7 +23,7 @@ import { getUserFriendlyErrorMessage } from '../../../core/utils/errors';
 import { usePreventAutoFocus } from '../../hooks/usePreventAutoFocus';
 import { AuthGuard } from '../../components/auth/AuthGuard';
 
-const ACCENTS = [colors.blue, colors.orange, colors.ink];
+const ACCENTS = [colors.cobalto, colors.coral, colors.tinta];
 
 interface EnrichedAppointment extends Appointment {
   clientName?: string;
@@ -56,7 +56,7 @@ function LojistaAppointmentCard({
         <Typography variant="body" color={colors.muted}>
           {serviceDisplay} · {establishmentDisplay}
         </Typography>
-        <Typography variant="label" color={item.status === 'confirmed' ? colors.green : colors.orange}>
+        <Typography variant="label" color={item.status === 'confirmed' ? colors.menta : colors.coral}>
           {status}
         </Typography>
       </View>
@@ -156,7 +156,7 @@ function LojistaAgendaScreenContent() {
                   accessibilityRole="menuitem"
                   hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
                 >
-                  <Typography variant="label" color={colors.ink}>Meu perfil</Typography>
+                  <Typography variant="label" color={colors.tinta}>Meu perfil</Typography>
                 </Pressable>
                 {session && hasBothProfiles(session.profiles) ? (
                   <Pressable
@@ -165,7 +165,7 @@ function LojistaAgendaScreenContent() {
                     accessibilityRole="menuitem"
                     hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
                   >
-                    <Typography variant="label" color={colors.ink}>Trocar perfil</Typography>
+                    <Typography variant="label" color={colors.tinta}>Trocar perfil</Typography>
                   </Pressable>
                 ) : null}
                 <Pressable
@@ -174,7 +174,7 @@ function LojistaAgendaScreenContent() {
                   accessibilityRole="menuitem"
                   hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
                 >
-                  <Typography variant="label" color={colors.orange}>Sair</Typography>
+                  <Typography variant="label" color={colors.coral}>Sair</Typography>
                 </Pressable>
               </View>
             </Pressable>
@@ -203,7 +203,7 @@ function LojistaAgendaScreenContent() {
                   />
                 ) : (
                   <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
-                    <LogoMark size={20} main={colors.white} />
+                    <LogoMark size={20} />
                   </View>
                 )}
               </Pressable>
@@ -238,7 +238,7 @@ function LojistaAgendaScreenContent() {
                   onPress={() => agenda.selectDate(date)}
                   style={[styles.day, selected && styles.daySelected]}
                 >
-                  <Typography variant="label" size={13} color={selected ? colors.blue : colors.white}>
+                  <Typography variant="label" size={13} color={selected ? colors.cobalto : colors.white}>
                     {label}
                   </Typography>
                 </Pressable>
@@ -254,7 +254,7 @@ function LojistaAgendaScreenContent() {
             contentContainerStyle={[styles.list, { paddingBottom: 150 + insets.bottom }]}
             showsVerticalScrollIndicator={false}
           >
-            {agenda.error ? <Typography variant="body" color={colors.orange}>{agenda.error}</Typography> : null}
+            {agenda.error ? <Typography variant="body" color={colors.coral}>{agenda.error}</Typography> : null}
             {agenda.appointments.length === 0 && <EmptyState message="Nenhum agendamento para hoje." />}
             {agenda.appointments.map((item, index) => (
               <LojistaAppointmentCard
@@ -331,13 +331,13 @@ const styles = StyleSheet.create({
   appointment: { flexDirection: 'row', alignItems: 'flex-start', gap: 14, paddingRight: 16 },
   time: { width: 56, paddingTop: 2 },
   details: { flex: 1, gap: 3 },
-  cancelButton: { paddingVertical: 6, paddingHorizontal: 12, marginLeft: 8, borderRadius: radius.sm, backgroundColor: colors.orange + '15', userSelect: 'none' },
+  cancelButton: { paddingVertical: 6, paddingHorizontal: 12, marginLeft: 8, borderRadius: radius.sm, backgroundColor: colors.coral + '15', userSelect: 'none' },
   userMenuTrigger: { padding: 2 },
   userAvatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: colors.white },
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
   userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
   userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
-  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.ink, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
+  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
-  userMenuItemDestructive: { backgroundColor: colors.orange + '10' },
+  userMenuItemDestructive: { backgroundColor: colors.coral + '10' },
 });

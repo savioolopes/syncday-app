@@ -26,7 +26,7 @@ export function WeekStrip({ days, selectedISO, onSelect }: Props) {
               onPress={() => onSelect(iso)}
               style={[styles.chip, active && styles.chipActive]}
             >
-              <DayLabel date={d} color={active ? colors.blue : colors.whiteMuted} />
+              <DayLabel date={d} color={active ? colors.cobalto : colors.whiteMuted} />
             </Pressable>
           );
         })}

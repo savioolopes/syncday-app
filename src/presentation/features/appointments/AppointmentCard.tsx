@@ -54,7 +54,7 @@ export const AppointmentCard = memo(function AppointmentCard({
           onPress={() => onOpenCancelConfirm?.(item.id)}
           hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}
         >
-          <Typography variant="label" color={colors.orange}>Cancelar</Typography>
+          <Typography variant="label" color={colors.coral}>Cancelar</Typography>
         </Pressable>
       )}
     </Card>
@@ -67,5 +67,5 @@ const styles = StyleSheet.create({
   logoContainer: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: 2 },
   establishmentLogo: { width: 40, height: 40, borderRadius: radius.sm },
   logoPlaceholder: { width: 40, height: 40, borderRadius: radius.sm, backgroundColor: colors.glass },
-  cancelButton: { paddingVertical: 6, paddingHorizontal: 12, marginLeft: 8, borderRadius: 8, backgroundColor: colors.orange + '15', userSelect: 'none' },
+  cancelButton: { paddingVertical: 6, paddingHorizontal: 12, marginLeft: 8, borderRadius: 8, backgroundColor: colors.coral + '15', userSelect: 'none' },
 });

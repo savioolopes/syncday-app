@@ -30,10 +30,10 @@ export function DateSelector({ monthLabel, days, selectedISO, isClosed, canGoBac
         </Typography>
         <View style={styles.arrows}>
           <Pressable disabled={!canGoBack} onPress={onPrev} hitSlop={12} accessibilityLabel="Dias anteriores">
-            <Feather name="chevron-left" size={26} color={canGoBack ? colors.blue : colors.disabledText} />
+            <Feather name="chevron-left" size={26} color={canGoBack ? colors.cobalto : colors.muted} />
           </Pressable>
           <Pressable onPress={onNext} hitSlop={12} accessibilityLabel="Próximos dias">
-            <Feather name="chevron-right" size={26} color={colors.blue} />
+            <Feather name="chevron-right" size={26} color={colors.cobalto} />
           </Pressable>
         </View>
       </View>
@@ -43,7 +43,7 @@ export function DateSelector({ monthLabel, days, selectedISO, isClosed, canGoBac
           const iso = toISO(d);
           const active = iso === selectedISO;
           const disabled = isClosed(d);
-          const textColor = disabled ? colors.disabledText : active ? colors.white : colors.ink;
+          const textColor = disabled ? colors.muted : active ? colors.white : colors.tinta;
           return (
             <SelectableTile
               key={iso}

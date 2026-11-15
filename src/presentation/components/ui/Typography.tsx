@@ -23,6 +23,6 @@ interface Props extends TextProps {
 }
 
 /** Único ponto de entrada para texto: garante fonte e cor do design system. */
-export function Typography({ variant = 'body', color = colors.ink, size, style, ...rest }: Props) {
+export function Typography({ variant = 'body', color = colors.tinta, size, style, ...rest }: Props) {
   return <Text {...rest} style={[variants[variant], { color }, size ? { fontSize: size } : null, style]} />;
 }

@@ -131,7 +131,7 @@ function InputField({
 }) {
   return (
     <View style={styles.field}>
-      <Typography variant="label">{label}</Typography>
+      <Typography variant="label" color={colors.tinta}>{label}</Typography>
       <TextInput
         accessibilityLabel={label}
         autoCapitalize={autoCapitalize}
@@ -140,7 +140,7 @@ function InputField({
         maxLength={maxLength}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={colors.disabledText}
+        placeholderTextColor={colors.muted}
         style={styles.input}
         value={value}
       />
@@ -472,7 +472,7 @@ function LojistaManagementScreenContent() {
                   accessibilityRole="menuitem"
                   hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
                 >
-                  <Typography variant="label" color={colors.ink}>Trocar perfil</Typography>
+                  <Typography variant="label" color={colors.tinta}>Trocar perfil</Typography>
                 </Pressable>
               ) : null}
               <Pressable
@@ -481,7 +481,7 @@ function LojistaManagementScreenContent() {
                 accessibilityRole="menuitem"
                 hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
               >
-                <Typography variant="label" color={colors.orange}>Sair</Typography>
+                <Typography variant="label" color={colors.coral}>Sair</Typography>
               </Pressable>
             </View>
           </Pressable>
@@ -540,7 +540,7 @@ function LojistaManagementScreenContent() {
                 <Typography
                   variant="label"
                   size={14}
-                  color={section === id ? colors.white : colors.ink}
+                  color={section === id ? colors.white : colors.tinta}
                 >
                   {title}
                 </Typography>
@@ -557,7 +557,7 @@ function LojistaManagementScreenContent() {
           {configuration.loading && !data ? <LoadingState /> : null}
           {configuration.error ? (
             <Card style={styles.errorCard}>
-              <Typography variant="body" color={colors.orange}>
+              <Typography variant="body" color={colors.coral}>
                 {getUserFriendlyErrorMessage(configuration.error)}
               </Typography>
               <Button label="Tentar novamente" variant="outline" onPress={configuration.reload} />
@@ -636,12 +636,12 @@ function LojistaManagementScreenContent() {
                       maxLength={8}
                     />
                     <View style={styles.cepStatus}>
-                      {cepStatus === 'loading' && <ActivityIndicator size="small" color={colors.blue} />}
+                      {cepStatus === 'loading' && <ActivityIndicator size="small" color={colors.cobalto} />}
                       {cepStatus === 'success' && (
-                        <Typography variant="caption" color={colors.green}>✓</Typography>
+                        <Typography variant="caption" color={colors.menta}>✓</Typography>
                       )}
                       {cepStatus === 'error' && (
-                        <Typography variant="caption" color={colors.orange}>✗</Typography>
+                        <Typography variant="caption" color={colors.coral}>✗</Typography>
                       )}
                     </View>
                   </View>
@@ -883,16 +883,16 @@ function ResourceCard({
           <Typography variant="caption" color={colors.muted}>{subtitle}</Typography>
           {detail ? <Typography variant="caption" color={colors.muted}>{detail}</Typography> : null}
         </View>
-        <Typography variant="label" size={13} color={active ? colors.green : colors.muted}>
+        <Typography variant="label" size={13} color={active ? colors.menta : colors.muted}>
           {active ? 'Ativo' : 'Inativo'}
         </Typography>
       </View>
       <View style={styles.resourceActions}>
         <Pressable accessibilityRole="button" onPress={onEdit} style={styles.textAction}>
-          <Typography variant="label" color={colors.blue}>Editar</Typography>
+          <Typography variant="label" color={colors.cobalto}>Editar</Typography>
         </Pressable>
         <Pressable accessibilityRole="button" onPress={onDelete} style={styles.textAction}>
-          <Typography variant="label" color={colors.orange}>Excluir</Typography>
+          <Typography variant="label" color={colors.coral}>Excluir</Typography>
         </Pressable>
       </View>
     </Card>
@@ -905,7 +905,7 @@ const styles = StyleSheet.create({
   intro: { marginTop: -8 },
   sectionTabs: { flexDirection: 'row', backgroundColor: colors.disabled, padding: 4, borderRadius: radius.md },
   sectionTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm },
-  sectionTabSelected: { backgroundColor: colors.blue },
+  sectionTabSelected: { backgroundColor: colors.cobalto },
   notice: { padding: 12 },
   errorCard: { gap: 10 },
   addButton: { marginTop: 2 },
@@ -917,7 +917,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderRadius: radius.sm,
     paddingHorizontal: 12,
-    color: colors.ink,
+    color: colors.tinta,
     backgroundColor: colors.white,
     fontFamily: 'Inter_400Regular',
     fontSize: 16,
@@ -929,7 +929,7 @@ const styles = StyleSheet.create({
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   choices: { gap: 8 },
   chip: { minHeight: 38, paddingHorizontal: 12, borderRadius: 20, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
-  chipSelected: { borderColor: colors.blue, backgroundColor: colors.blue },
+  chipSelected: { borderColor: colors.cobalto, backgroundColor: colors.cobalto },
   formActions: { flexDirection: 'row', gap: 10, marginTop: 4 },
   actionButton: { flex: 1 },
   list: { gap: 12 },
@@ -941,7 +941,7 @@ const styles = StyleSheet.create({
   resourceText: { flex: 1, gap: 4 },
   resourceActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 20 },
   textAction: { padding: 6 },
-  deleteCard: { gap: 12, borderWidth: 1, borderColor: colors.orange },
+  deleteCard: { gap: 12, borderWidth: 1, borderColor: colors.coral },
   topRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   userMenuTrigger: { padding: 2 },
@@ -949,7 +949,7 @@ const styles = StyleSheet.create({
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
   userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
   userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
-  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.ink, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
+  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
-  userMenuItemDestructive: { backgroundColor: colors.orange + '10' },
+  userMenuItemDestructive: { backgroundColor: colors.coral + '10' },
 });

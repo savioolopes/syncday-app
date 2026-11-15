@@ -12,7 +12,7 @@ export function ServiceSummaryCard({ service, icon = 'scissors' }: { service: Se
   return (
     <Card style={styles.row}>
       <IconTile size={56}>
-        <Feather name={icon} size={26} color={colors.blue} />
+        <Feather name={icon} size={26} color={colors.cobalto} />
       </IconTile>
       <View style={{ flex: 1 }}>
         <Typography variant="heading">{service.enrichedName ?? service.name}</Typography>

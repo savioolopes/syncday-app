@@ -208,12 +208,12 @@ function ClientProfileScreenContent() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.section}>
-          <Typography variant="label" color={colors.ink} style={styles.sectionTitle}>
+          <Typography variant="label" color={colors.tinta} style={styles.sectionTitle}>
             Dados Pessoais
           </Typography>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>Nome completo</Typography>
+            <Typography variant="label" color={colors.tinta}>Nome completo</Typography>
             <TextInput
               style={styles.input}
               value={form.nome}
@@ -224,7 +224,7 @@ function ClientProfileScreenContent() {
           </View>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>CPF</Typography>
+            <Typography variant="label" color={colors.tinta}>CPF</Typography>
             <TextInput
               style={[styles.input, styles.inputDisabled]}
               value={form.cpf}
@@ -237,7 +237,7 @@ function ClientProfileScreenContent() {
           </View>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>Email</Typography>
+            <Typography variant="label" color={colors.tinta}>Email</Typography>
             <TextInput
               style={[styles.input, styles.inputDisabled]}
               value={form.email}
@@ -253,12 +253,12 @@ function ClientProfileScreenContent() {
         </View>
 
         <View style={styles.section}>
-          <Typography variant="label" color={colors.ink} style={styles.sectionTitle}>
+          <Typography variant="label" color={colors.tinta} style={styles.sectionTitle}>
             Endereço
           </Typography>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>CEP</Typography>
+            <Typography variant="label" color={colors.tinta}>CEP</Typography>
             <TextInput
               style={styles.input}
               value={form.cep}
@@ -268,12 +268,12 @@ function ClientProfileScreenContent() {
               maxLength={9}
               onBlur={handleCepBlur}
             />
-            {cepLoading && <Typography variant="caption" color={colors.blue}>Buscando endereço...</Typography>}
+            {cepLoading && <Typography variant="caption" color={colors.cobalto}>Buscando endereço...</Typography>}
           </View>
 
           <View style={styles.row}>
             <View style={{ flex: 1, marginRight: 8 }}>
-              <Typography variant="label" color={colors.ink}>Tipo de logradouro</Typography>
+              <Typography variant="label" color={colors.tinta}>Tipo de logradouro</Typography>
               <TextInput
                 style={styles.input}
                 value={form.tipoLogradouro}
@@ -282,7 +282,7 @@ function ClientProfileScreenContent() {
               />
             </View>
             <View style={{ flex: 2 }}>
-              <Typography variant="label" color={colors.ink}>Logradouro</Typography>
+              <Typography variant="label" color={colors.tinta}>Logradouro</Typography>
               <TextInput
                 style={styles.input}
                 value={form.logradouro}
@@ -294,7 +294,7 @@ function ClientProfileScreenContent() {
 
           <View style={styles.row}>
             <View style={{ flex: 1, marginRight: 8 }}>
-              <Typography variant="label" color={colors.ink}>Número</Typography>
+              <Typography variant="label" color={colors.tinta}>Número</Typography>
               <TextInput
                 style={styles.input}
                 value={form.numero}
@@ -304,7 +304,7 @@ function ClientProfileScreenContent() {
               />
             </View>
             <View style={{ flex: 2 }}>
-              <Typography variant="label" color={colors.ink}>Complemento</Typography>
+              <Typography variant="label" color={colors.tinta}>Complemento</Typography>
               <TextInput
                 style={styles.input}
                 value={form.complemento}
@@ -315,7 +315,7 @@ function ClientProfileScreenContent() {
           </View>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>Bairro</Typography>
+            <Typography variant="label" color={colors.tinta}>Bairro</Typography>
             <TextInput
               style={styles.input}
               value={form.bairro}
@@ -326,7 +326,7 @@ function ClientProfileScreenContent() {
 
           <View style={styles.row}>
             <View style={{ flex: 2, marginRight: 8 }}>
-              <Typography variant="label" color={colors.ink}>Cidade</Typography>
+              <Typography variant="label" color={colors.tinta}>Cidade</Typography>
               <TextInput
                 style={styles.input}
                 value={form.municipio}
@@ -335,7 +335,7 @@ function ClientProfileScreenContent() {
               />
             </View>
             <View style={{ flex: 1 }}>
-              <Typography variant="label" color={colors.ink}>UF</Typography>
+              <Typography variant="label" color={colors.tinta}>UF</Typography>
               <TextInput
                 style={styles.input}
                 value={form.unidadeFederativa}
@@ -384,10 +384,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: colors.ink,
+    color: colors.tinta,
   },
   inputDisabled: {
-    backgroundColor: colors.bg,
+    backgroundColor: colors.nevoa,
     color: colors.muted,
   },
   helperText: { marginTop: 4 },

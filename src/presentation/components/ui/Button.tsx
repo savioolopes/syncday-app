@@ -16,9 +16,9 @@ interface Props {
 
 const textColor: Record<Variant, string> = {
   primary: colors.white,
-  accent: colors.white,
-  outline: colors.blue,
-  link: colors.orange,
+  accent: colors.tinta,
+  outline: colors.cobalto,
+  link: colors.coral,
 };
 
 export function Button({ label, onPress, variant = 'primary', disabled, loading, style }: Props) {
@@ -31,9 +31,9 @@ export function Button({ label, onPress, variant = 'primary', disabled, loading,
       onPress={onPress}
       style={({ pressed }) => [
         styles.base,
-        variant === 'primary' && { backgroundColor: colors.blue },
-        variant === 'accent' && { backgroundColor: colors.orange },
-        variant === 'outline' && { backgroundColor: colors.white, borderWidth: 2, borderColor: colors.blue },
+        variant === 'primary' && { backgroundColor: colors.cobalto },
+        variant === 'accent' && { backgroundColor: colors.coral },
+        variant === 'outline' && { backgroundColor: colors.white, borderWidth: 2, borderColor: colors.cobalto },
         variant === 'link' && { height: 44 },
         inactive && { opacity: 0.5 },
         pressed && { opacity: 0.85, transform: [{ scale: 0.985 }] },
