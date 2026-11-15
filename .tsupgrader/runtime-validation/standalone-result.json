@@ -1,0 +1,165 @@
+{
+  "planHash": "26ee36b19389fdd354d2c0d14fdeca790a3ead8d3a409999b39ff78ea5c61436",
+  "phase": "standalone",
+  "recordedAtUtc": "2026-10-21T18:11:46.0319951Z",
+  "retryCount": 0,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 63613,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "typecheck",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "",
+        "durationMs": 3494
+      },
+      {
+        "name": "lint",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "\r\n\u003E junto@1.0.0 lint\r\n\u003E expo lint\r\n\r\nenv: load .env\r\nenv: export EXPO_PUBLIC_API_URL\r\n\r\nC:\\Users\\savio\\git\\frontend\\src\\presentation\\features\\appointments\\LojistaManagementScreen.tsx\r\n  198:6  warning  React Hook useCallback has a missing dependency: \u0027lojistaProfile\u0027. Either include it or remove the dependency array  react-hooks/exhaustive-deps\r\n\r\n\u2716 1 problem (0 errors, 1 warning)\r\n\r\n",
+        "durationMs": 6166
+      },
+      {
+        "name": "web-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "env: load .env\r\nenv: export EXPO_PUBLIC_API_URL\r\nReact Compiler enabled\r\nStarting Metro Bundler\r\n\r\nStatic rendering is enabled. Learn more: https://docs.expo.dev/router/web/static-rendering/\r\nError while reading cache, falling back to a full crawl:\r\n Error: Unable to deserialize cloned data due to invalid or unsupported version.\r\n    at deserialize (node:v8:527:7)\r\n    at DiskCacheManager.read (C:\\Users\\savio\\git\\frontend\\node_modules\\@expo\\metro-file-map\\build\\cache\\DiskCacheManager.js:55:41)\r\n    at async FileMap.read (C:\\Users\\savio\\git\\frontend\\node_modules\\@expo\\metro-file-map\\build\\index.js:371:20)\r\n    at async C:\\Users\\savio\\git\\frontend\\node_modules\\@expo\\metro-file-map\\build\\index.js:262:35\r\n    at async DependencyGraph.ready (C:\\Users\\savio\\git\\frontend\\node_modules\\metro\\src\\node-haste\\DependencyGraph.js:94:5)\r\n    at async Bundler.ready (C:\\Users\\savio\\git\\frontend\\node_modules\\metro\\src\\Bundler.js:62:5)\r\n    at async IncrementalBundler.ready (C:\\Users\\savio\\git\\frontend\\node_modules\\metro\\src\\IncrementalBundler.js:310:5)\r\n    at async Server.ready (C:\\Users\\savio\\git\\frontend\\node_modules\\metro\\src\\Server.js:1446:5)\r\n\u03BB Bundled 2460ms node_modules\\expo\\node_modules\\@expo\\cli\\node_modules\\@expo\\router-server\\node\\render.js (1013 modules)\r\nWeb Bundled 2909ms node_modules\\expo-router\\entry.js (982 modules)\r\n\r\n\u203A web bundles (1):\r\n_expo/static/js/web/entry-0d756941ffac2067773966aec5c891fc.js (1.8MB)\r\n\r\n\u203A Static routes (10):\r\n/ (index) (26KB)\r\n/login (25KB)\r\n/cadastro (33KB)\r\n/_sitemap (21KB)\r\n/\u002Bnot-found (21KB)\r\n/agendamentos (26KB)\r\n/agenda-lojista (27KB)\r\n/gestao-lojista (26KB)\r\n/novo-agendamento (26KB)\r\n/selecionar-perfil (24KB)\r\n\r\nExported: dist\r\n",
+        "durationMs": 6363
+      },
+      {
+        "name": "tests-pass",
+        "kind": "process",
+        "verificationMethod": "test-results",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "\r\n\u003E junto@1.0.0 test\r\n\u003E vitest run\r\n\r\n\r\n RUN  v4.1.12 C:/Users/savio/git/frontend\r\n\r\n\r\n Test Files  4 passed (4)\r\n      Tests  20 passed (20)\r\n   Start at  15:11:38\r\n   Duration  388ms (transform 250ms, setup 0ms, import 369ms, tests 131ms, environment 0ms)\r\n\r\n",
+        "durationMs": 1528,
+        "testResults": {
+          "testFramework": "vitest",
+          "runnerDetectedFrom": "package_json",
+          "testsTotal": 20,
+          "testsPassed": 20,
+          "testsFailed": 0,
+          "testsSkipped": 0,
+          "parseFailed": false
+        }
+      },
+      {
+        "name": "registration-route-serves",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 200\n\u003C!DOCTYPE html\u003E\u003Chtml  lang=\u0022en\u0022\u003E\u003Chead\u003E\u003Ctitle data-rh=\u0022true\u0022\u003E\u003C/title\u003E\u003Cmeta charSet=\u0022utf-8\u0022/\u003E\u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1, shrink-to-fit=no\u0022/\u003E\u003Cmeta http-equiv=\u0022X-UA-Compatible\u0022 content=\u0022IE=edge\u0022/\u003E\u003Cstyle id=\u0022expo-reset\u0022\u003E#root,body,html{height:100%}body{overflow:hidden}#root{display:flex}\u003C/style\u003E\u003Cstyle id=\u0022react-native-stylesheet\u0022\u003E[stylesheet-group=\u00220\u0022]{}\nbody{margin:0;}\nbutton::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}\nhtml{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:rgba(0,0,0,0);}\ninput::-webkit-search-cancel-button,input::-webkit-search-decoration,input::-webkit-search-results-button,input::-webkit-search-results-decoration{display:none;}\n[stylesheet-group=\u00221\u0022]{}\n.css-accessibilityImage-9pa8cd{bottom:0px;height:100%;left:0px;opacity:0;position:absolute;right:0px;top:0px;width:100%;z-index:-1;}\n.css-text-146c3p1{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:rgba(0,0,0,1.00);display:inline;font:14px -apple-system,BlinkMacSystemFont,\u0022Segoe UI\u0022,Roboto,Helvetica,Arial,sans-serif;list-style:none;margin:0px;padding:0px;position:relative;text-align:start;text-decoration:none;white-space:pre-wrap;word-wrap:break-word;}\n.css-textHasAncestor-1jxf684{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:inherit;display:inline;font:inherit;list-style:none;margin:0px;padding:0px;position:relative;text-align:inherit;text-decoration:none;white-space:inherit;word-wrap:break-word;}\n.css-textinput-11aywtz{-moz-appearance:textfield;-webkit-appearance:none;background-color:rgba(0,0,0,0.00);border-bottom-left-radius:0px;border-bottom-right-radius:0px;border-top-left-radius:0px;border-top-right-radius:0px;border:0 solid black;box-sizing:border-box;font:14px -apple-system,BlinkMacSystemFont,\u0022Segoe UI\u0022,Roboto,Helvetica,Arial,sans-serif;margin:0px;padding:0px;resize:none;}\n.css-view-g5y9jx{align-content:flex-start;align-items:stretch;background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;display:flex;flex-basis:auto;flex-direction:column;flex-shrink:0;list-style:none;margin:0px;min-height:0px;min-width:0px;padding:0px;position:relative;text-decoration:none;z-index:0;}\n[stylesheet-group=\u00222\u0022]{}\n.r-borderColor-11mg6pl{border-bottom-color:rgba(255,255,255,1.00);border-left-color:rgba(255,255,255,1.00);border-right-color:rgba(255,255,255,1.00);border-top-color:rgba(255,255,255,1.00);}\n.r-borderColor-1awa8pu{border-bottom-color:rgba(101,119,134,1.00);border-left-color:rgba(101,119,134,1.00);border-right-color:rgba(101,119,134,1.00);border-top-color:rgba(101,119,134,1.00);}\n.r-borderColor-1c83n8m{border-bottom-color:rgba(221,228,243,1.00);border-left-color:rgba(221,228,243,1.00);border-right-color:rgba(221,228,243,1.00);border-top-color:rgba(221,228,243,1.00);}\n.r-borderColor-1d4xg89{border-bottom-color:rgba(170,184,194,1.00);border-left-color:rgba(170,184,194,1.00);border-right-color:rgba(170,184,194,1.00);border-top-color:rgba(170,184,194,1.00);}\n.r-borderColor-1jyn79y{border-bottom-color:rgba(0,150,136,1.00);border-left-color:rgba(0,150,136,1.00);border-right-color:rgba(0,150,136,1.00);border-top-color:rgba(0,150,136,1.00);}\n.r-borderColor-1rvyss1{border-bottom-color:rgba(255,255,255,0.20);border-left-color:rgba(255,255,255,0.20);border-right-color:rgba(255,255,255,0.20);border-top-color:rgba(255,255,255,0.20);}\n.r-borderColor-4a18lf{border-bottom-color:rgba(255,0,0,1.00);border-left-color:rgba(255,0,0,1.00);border-right-color:rgba(255,0,0,1.00);border-top-color:rgba(255,0,0,1.00);}\n.r-borderColor-60ke3l{border-bottom-color:rgba(0,128,0,1.00);border-left-color:rgba(0,128,0,1.00);border-right-color:rgba(0,128,0,1.00);border-top-color:rgba(0,128,0,1.00);}\n.r-borderColor-9x6qib{border-bottom-color:rgba(204,214,221,1.00);border-left-color:rgba(204,214,221,1.00);border-right-color:rgba(204,214,221,1.00);border-top-color:rgba(204,214,221,1.00);}\n.r-borderColor-fs9ez6{border-bottom-color:rgba(233,236,242,1.00);border-left-color:rgba(233,236,242,1.00);border-right-co\n\u2026[truncated]",
+        "durationMs": 7128
+      }
+    ],
+    "executions": [
+      {
+        "source": "setup[0]",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.CMD",
+        "args": [
+          "ci"
+        ],
+        "cwd": "C:\\Users\\savio\\git\\frontend",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "typecheck",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npx.CMD",
+        "args": [
+          "tsc",
+          "--noEmit"
+        ],
+        "cwd": "C:\\Users\\savio\\git\\frontend",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "lint",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.CMD",
+        "args": [
+          "run",
+          "lint"
+        ],
+        "cwd": "C:\\Users\\savio\\git\\frontend",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "web-build",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npx.CMD",
+        "args": [
+          "expo",
+          "export",
+          "--platform",
+          "web"
+        ],
+        "cwd": "C:\\Users\\savio\\git\\frontend",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "tests-pass",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.CMD",
+        "args": [
+          "test"
+        ],
+        "cwd": "C:\\Users\\savio\\git\\frontend",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "registration-route-serves",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npx.CMD",
+        "args": [
+          "expo",
+          "start",
+          "--web",
+          "--host",
+          "localhost",
+          "--port",
+          "8099"
+        ],
+        "cwd": "C:\\Users\\savio\\git\\frontend",
+        "env": {
+          "CI": "1"
+        },
+        "prependPath": [],
+        "platform": "win32"
+      }
+    ]
+  }
+}

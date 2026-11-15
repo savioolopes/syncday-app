@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - EXPO_PUBLIC_API_URL=http://agendamento-app:8093
+        - EXPO_PUBLIC_CLIENTE_API_URL=http://cliente-app:8091
+        - EXPO_PUBLIC_LOJISTA_API_URL=http://lojista-app:8090
+        - EXPO_PUBLIC_AUTH_API_URL=http://usuario-app:8092
+    container_name: syncday-frontend
+    ports:
+      - "8081:8081"
+    networks:
+      - syncday-network
+    restart: unless-stopped
+
+networks:
+  syncday-network:
+    external: true
