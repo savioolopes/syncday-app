@@ -3,10 +3,15 @@ import { StyleSheet, View } from 'react-native';
 import { colors } from '../../../core/theme';
 import { Typography } from './Typography';
 
-type Tone = 'success' | 'accent';
-const toneColor: Record<Tone, string> = { success: colors.menta, accent: colors.coral };
+type Tone = 'success' | 'pending' | 'cancelled' | 'missed';
+const toneColor: Record<Tone, string> = {
+  success: colors.menta,      // Só status confirmado (brand kit)
+  pending: colors.cobalto,    // Agendado/pendente - cor principal do produto
+  cancelled: colors.coral,    // Cancelado - destrutivo
+  missed: colors.muted,       // Não compareceu - neutro
+};
 
-/** Bolinha + texto de status. `success` = Menta (só para "confirmado"). */
+/** Bolinha + texto de status. Cores conforme brand kit v1.1. */
 export const StatusLabel = memo(function StatusLabel({ label, tone }: { label: string; tone: Tone }) {
   return (
     <View style={styles.row}>

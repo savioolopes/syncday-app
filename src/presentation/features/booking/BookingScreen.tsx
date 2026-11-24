@@ -4,8 +4,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, layout, radius, spacing } from '../../../core/theme';
 import { Wordmark } from '../../components/brand/Logo';
-import { BackButton } from '../../components/ui/BackButton';
-import { BlueHeader } from '../../components/ui/BlueHeader';
+import { SmartBackButton } from '../../components/ui/SmartBackButton';
+import { ScreenHeader } from '../../components/ui/ScreenHeader';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { EmptyState, LoadingState } from '../../components/ui/States';
@@ -99,34 +99,24 @@ function BookingScreenContent() {
           </Pressable>
         </>
       )}
-      <BlueHeader style={{ paddingBottom: 22 }}>
-        <View style={styles.topRow}>
-          <BackButton compact onPress={() => router.back()} />
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Wordmark color={colors.white} size={30} />
-          </View>
-          <View style={styles.actions}>
-            <Pressable
-              ref={userMenuRef}
-              style={styles.userMenuTrigger}
-              onPress={openMenu}
-              accessibilityRole="button"
-              accessibilityLabel="Menu do usuário"
-              hitSlop={10}
-            >
-              <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
-                <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
-              </View>
-            </Pressable>
-          </View>
-        </View>
-        <Typography variant="display" color={colors.white} style={{ marginTop: 18 }}>
-          Marcar novo horário
-        </Typography>
-        <Typography variant="body" size={17} color={colors.whiteMuted} style={{ marginTop: 4 }}>
-          Escolha o melhor momento pra você.
-        </Typography>
-      </BlueHeader>
+      <ScreenHeader
+        title="Marcar novo horário"
+        left={<SmartBackButton compact fallbackHref="/agendamentos" />}
+        right={
+          <Pressable
+            ref={userMenuRef}
+            style={styles.userMenuTrigger}
+            onPress={openMenu}
+            accessibilityRole="button"
+            accessibilityLabel="Menu do usuário"
+            hitSlop={10}
+          >
+            <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
+              <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
+            </View>
+          </Pressable>
+        }
+      />
 
       <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 200 + insets.bottom }]} showsVerticalScrollIndicator={false}>
         {booking.serviceLoading && booking.serviceId ? (
@@ -137,13 +127,8 @@ function BookingScreenContent() {
             {booking.loadingServices ? <LoadingState /> : null}
             {booking.servicesError ? <Typography variant="body" color={colors.coral}>{booking.servicesError}</Typography> : null}
             {!booking.loadingServices && booking.services.length === 0
-              ? <EmptyState message="Nenhuma grade ativa foi encontrada na API." />
+              ? <EmptyState message="Nenhuma grade ativa foi encontrada." />
               : null}
-            {booking.services.length > 0 ? (
-              <Typography variant="caption" color={colors.muted} style={styles.catalogNote}>
-                Nomes comerciais carregados da API.
-              </Typography>
-            ) : null}
             <View style={styles.serviceList}>
               {booking.services.map((item) => (
                 <Pressable key={item.id} onPress={() => booking.selectService(item.id)}>
@@ -254,8 +239,8 @@ const styles = StyleSheet.create({
   userMenuTrigger: { padding: 2 },
   userAvatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: colors.white },
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
-  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
-  userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
+  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 },
+  userMenuPanelWrapper: { position: 'absolute', zIndex: 201, width: 180 },
   userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
   userMenuItemDestructive: { backgroundColor: colors.coral + '10' },

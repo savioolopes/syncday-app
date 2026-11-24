@@ -539,7 +539,7 @@ export default function RegistrationScreen() {
 
               {!process.env.EXPO_PUBLIC_API_URL ? (
                 <Typography variant="body" color={colors.coral} style={styles.error}>
-                  Configure EXPO_PUBLIC_API_URL antes de cadastrar.
+                  Servidor não configurado. Contate o administrador.
                 </Typography>
               ) : null}
               {error ? <Typography variant="body" color={colors.coral} style={styles.error}>{error}</Typography> : null}

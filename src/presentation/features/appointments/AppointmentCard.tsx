@@ -14,13 +14,18 @@ export const AppointmentCard = memo(function AppointmentCard({
   onCancel,
   onOpenCancelConfirm
 }: { item: Appointment; accent: string; onCancel?: (id: string) => void; onOpenCancelConfirm?: (id: string) => void }) {
-  const confirmed = item.status === 'confirmed';
   const statusLabel = {
     confirmed: 'Realizado',
     reminder: 'Agendado',
     cancelled: 'Cancelado',
     missed: 'Não compareceu',
   }[item.status];
+  const statusTone = {
+    confirmed: 'success',
+    reminder: 'pending',
+    cancelled: 'cancelled',
+    missed: 'missed',
+  }[item.status] as 'success' | 'pending' | 'cancelled' | 'missed';
   const canCancel = onCancel && (item.status === 'reminder' || item.status === 'confirmed');
 
   const safeLojistaLogo = item.lojistaLogo && isSafeImageUrl(item.lojistaLogo) ? item.lojistaLogo : undefined;
@@ -46,7 +51,7 @@ export const AppointmentCard = memo(function AppointmentCard({
         <Typography variant="body" color={colors.muted} style={{ marginTop: 2 }}>
           {item.place}
         </Typography>
-        <StatusLabel tone={confirmed ? 'success' : 'accent'} label={statusLabel} />
+        <StatusLabel tone={statusTone} label={statusLabel} />
       </View>
       {canCancel && (
         <Pressable

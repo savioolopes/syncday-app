@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { colors, radius } from '../../../core/theme';
+import { colors, radius, spacing } from '../../../core/theme';
 import { Typography } from './Typography';
 
 type Variant = 'primary' | 'outline' | 'accent' | 'link';
@@ -52,5 +52,5 @@ export function Button({ label, onPress, variant = 'primary', disabled, loading,
 }
 
 const styles = StyleSheet.create({
-  base: { height: 54, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16 },
+  base: { height: 54, borderRadius: radius.button, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24 },
 });

@@ -58,7 +58,7 @@ export default function LoginScreen() {
         ) : null}
         {!process.env.EXPO_PUBLIC_API_URL ? (
           <Text style={styles.error}>
-            Configure EXPO_PUBLIC_API_URL para conectar ao backend.
+            Servidor não configurado. Contate o administrador.
           </Text>
         ) : null}
 

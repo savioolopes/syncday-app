@@ -20,7 +20,9 @@ try {
 }
 const useRelativeUrls = isBrowser && currentOrigin !== '' && apiOrigin !== '' && currentOrigin !== apiOrigin;
 
-const LOJISTA_API_URL = useRelativeUrls ? '/api/estabelecimentos' : (process.env.EXPO_PUBLIC_LOJISTA_API_URL || 'http://localhost:8090');
+// Base URL for lojista API - nginx proxies /api/estabelecimentos, /api/servicos, /api/lojistas separately
+// So we use /api as base and let the paths be /estabelecimentos/{id} and /servicos/{id}
+const LOJISTA_API_URL = useRelativeUrls ? '/api' : (process.env.EXPO_PUBLIC_LOJISTA_API_URL || 'http://localhost:8090');
 
 interface LojistaServiceResponse {
   nome: string;

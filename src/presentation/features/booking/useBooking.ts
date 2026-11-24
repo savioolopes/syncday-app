@@ -7,6 +7,20 @@ import { useSession } from '../../providers/SessionProvider';
 import { useToast } from '../../providers/ToastProvider';
 import { getUserFriendlyErrorMessage } from '../../../core/utils/errors';
 
+/** Filter out past time slots for today (with 30min tolerance) */
+const filterFutureSlots = (slots: { time: string; available: boolean }[], selectedDateISO: string): { time: string; available: boolean }[] => {
+  const todayISO = toISO(startOfDay(new Date()));
+  if (selectedDateISO !== todayISO) return slots;
+
+  const now = new Date();
+  const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30; // 30min tolerance
+  return slots.filter((slot) => {
+    const [hours, minutes] = slot.time.split(':').map(Number);
+    const slotMinutes = hours * 60 + minutes;
+    return slotMinutes >= cutoffMinutes;
+  });
+};
+
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const isValidUUID = (id: string): boolean => UUID_PATTERN.test(id);
 
@@ -56,8 +70,11 @@ export function useBooking(serviceId?: string) {
     [usecases, selectedService?.id, date]
   );
 
-  // Memoize slotList to prevent unnecessary re-renders in callbacks
-  const slotList = useMemo(() => slots.data ?? [], [slots.data]);
+  // Memoize slotList to prevent unnecessary re-renders in callbacks, filtering past slots for today
+  const slotList = useMemo(() => {
+    const rawSlots = slots.data ?? [];
+    return filterFutureSlots(rawSlots, date);
+  }, [slots.data, date]);
 
   const days = useMemo(
     () => Array.from({ length: DAYS_PER_PAGE }, (_, i) => addDays(pageStart, i)),

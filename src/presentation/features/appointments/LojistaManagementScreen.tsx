@@ -18,8 +18,8 @@ import { Card } from '../../components/ui/Card';
 import { EmptyState, LoadingState } from '../../components/ui/States';
 import { Screen } from '../../components/ui/Screen';
 import { Typography } from '../../components/ui/Typography';
-import { BackButton } from '../../components/ui/BackButton';
-import { BlueHeader } from '../../components/ui/BlueHeader';
+import { SmartBackButton } from '../../components/ui/SmartBackButton';
+import { ScreenHeader } from '../../components/ui/ScreenHeader';
 import { Wordmark } from '../../components/brand/Logo';
 import { colors, radius, spacing } from '../../../core/theme';
 import { useApp } from '../../providers/AppProviders';
@@ -231,7 +231,7 @@ function LojistaManagementScreenContent() {
 
   const load = useCallback(async (): Promise<Configuration> => {
     if (!lojistaProfile) throw new Error('Não foi possível identificar o perfil Lojista da sessão.');
-    if (!session?.lojistaToken) throw new Error('Sua sessão não tem acesso à API de Lojista. Saia e entre novamente.');
+    if (!session?.lojistaToken) throw new Error('Sua sessão expirou. Saia e entre novamente.');
     const establishments = await usecases.manageLojistaConfiguration.listEstablishments(lojistaProfile.id);
     const [services, grids] = await Promise.all([
       usecases.manageLojistaConfiguration.listServices(establishments.map((item) => item.id)),
@@ -487,34 +487,24 @@ function LojistaManagementScreenContent() {
           </Pressable>
         </>
       )}
-      <BlueHeader style={{ paddingBottom: 22 }}>
-        <View style={styles.topRow}>
-          <BackButton compact onPress={() => router.replace('/agenda-lojista')} />
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Wordmark color={colors.white} size={30} />
-          </View>
-          <View style={styles.actions}>
-            <Pressable
-              ref={userMenuRef}
-              style={styles.userMenuTrigger}
-              onPress={openMenu}
-              accessibilityRole="button"
-              accessibilityLabel="Menu do usuário"
-              hitSlop={10}
-            >
-              <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
-                <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
-              </View>
-            </Pressable>
-          </View>
-        </View>
-        <Typography variant="display" color={colors.white} style={{ marginTop: 18 }}>
-          Configurar atendimento
-        </Typography>
-        <Typography variant="body" size={17} color={colors.whiteMuted} style={{ marginTop: 4 }}>
-          Cadastre suas unidades, serviços e horários disponíveis para agendamento.
-        </Typography>
-      </BlueHeader>
+      <ScreenHeader
+        title="Configurar atendimento"
+        left={<SmartBackButton compact fallbackHref="/agenda-lojista" />}
+        right={
+          <Pressable
+            ref={userMenuRef}
+            style={styles.userMenuTrigger}
+            onPress={openMenu}
+            accessibilityRole="button"
+            accessibilityLabel="Menu do usuário"
+            hitSlop={10}
+          >
+            <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
+              <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
+            </View>
+          </Pressable>
+        }
+      />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -547,12 +537,6 @@ function LojistaManagementScreenContent() {
               </Pressable>
             ))}
           </View>
-
-          <Card style={styles.notice}>
-            <Typography variant="caption" color={colors.muted}>
-              Unidades e serviços são salvos na API do Lojista. As grades e horários são salvos na API de Agendamento.
-            </Typography>
-          </Card>
 
           {configuration.loading && !data ? <LoadingState /> : null}
           {configuration.error ? (
@@ -814,7 +798,7 @@ function LojistaManagementScreenContent() {
               <Typography variant="title">Excluir {deleteTarget.name}?</Typography>
               <Typography variant="caption" color={colors.muted}>
                 {deleteTarget.section === 'establishments'
-                  ? 'A API também remove associações desse local com serviços. Grades relacionadas podem precisar ser removidas separadamente.'
+                  ? 'Isso também removerá associações dessa unidade com serviços. Grades relacionadas podem precisar ser removidas separadamente.'
                   : 'Essa ação não pode ser desfeita.'}
               </Typography>
               <View style={styles.formActions}>
@@ -947,8 +931,8 @@ const styles = StyleSheet.create({
   userMenuTrigger: { padding: 2 },
   userAvatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: colors.white },
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
-  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
-  userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
+  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 },
+  userMenuPanelWrapper: { position: 'absolute', zIndex: 201, width: 180 },
   userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
   userMenuItemDestructive: { backgroundColor: colors.coral + '10' },

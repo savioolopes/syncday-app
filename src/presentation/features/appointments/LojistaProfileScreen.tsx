@@ -4,8 +4,8 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '../../../core/theme';
 import { Wordmark } from '../../components/brand/Logo';
-import { BlueHeader } from '../../components/ui/BlueHeader';
-import { BackButton } from '../../components/ui/BackButton';
+import { ScreenHeader } from '../../components/ui/ScreenHeader';
+import { SmartBackButton } from '../../components/ui/SmartBackButton';
 import { Button } from '../../components/ui/Button';
 import { Screen } from '../../components/ui/Screen';
 import { Typography } from '../../components/ui/Typography';
@@ -178,15 +178,10 @@ function LojistaProfileScreenContent() {
   if (loading) {
     return (
       <Screen background={colors.bg}>
-        <BlueHeader>
-          <View style={styles.topRow}>
-            <BackButton compact onPress={() => router.back()} />
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Wordmark color={colors.white} size={30} />
-            </View>
-            <View style={{ width: 36 }} />
-          </View>
-        </BlueHeader>
+        <ScreenHeader
+          title="Meu Perfil"
+          left={<SmartBackButton compact fallbackHref="/agenda-lojista" />}
+        />
       </Screen>
     );
   }
@@ -195,18 +190,10 @@ function LojistaProfileScreenContent() {
 
   return (
     <Screen background={colors.bg}>
-      <BlueHeader>
-        <View style={styles.topRow}>
-          <BackButton compact onPress={() => router.back()} />
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Wordmark color={colors.white} size={30} />
-          </View>
-          <View style={{ width: 36 }} />
-        </View>
-        <Typography variant="display" size={28} color={colors.white} style={styles.title}>
-          Meu Perfil
-        </Typography>
-      </BlueHeader>
+      <ScreenHeader
+        title="Meu Perfil"
+        left={<SmartBackButton compact fallbackHref="/agenda-lojista" />}
+      />
 
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: 100 + insets.bottom }]}
