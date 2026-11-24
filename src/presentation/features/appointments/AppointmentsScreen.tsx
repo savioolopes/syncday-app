@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '../../../core/theme';
 import { Wordmark } from '../../components/brand/Logo';
-import { BlueHeader } from '../../components/ui/BlueHeader';
+import { ScreenHeader } from '../../components/ui/ScreenHeader';
 import { Button } from '../../components/ui/Button';
 import { EmptyState, LoadingState } from '../../components/ui/States';
 import { FooterBar } from '../../components/ui/FooterBar';
@@ -22,7 +22,7 @@ import { usePreventAutoFocus } from '../../hooks/usePreventAutoFocus';
 import { AuthGuard } from '../../components/auth/AuthGuard';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 
-const ACCENTS = [colors.blue, colors.orange, colors.ink];
+const ACCENTS = [colors.cobalto, colors.coral, colors.tinta];
 
 function AppointmentsScreenContent() {
   const router = useRouter();
@@ -108,7 +108,7 @@ function AppointmentsScreenContent() {
                 onPress={() => { closeMenu(); void openProfile(); }}
                 accessibilityRole="menuitem"
               >
-                <Typography variant="label" color={colors.ink}>Meu perfil</Typography>
+                <Typography variant="label" color={colors.tinta}>Meu perfil</Typography>
               </Pressable>
               {session && hasBothProfiles(session.profiles) ? (
                 <Pressable
@@ -116,7 +116,7 @@ function AppointmentsScreenContent() {
                   onPress={() => { closeMenu(); void switchProfile(); }}
                   accessibilityRole="menuitem"
                 >
-                  <Typography variant="label" color={colors.ink}>Trocar perfil</Typography>
+                  <Typography variant="label" color={colors.tinta}>Trocar perfil</Typography>
                 </Pressable>
               ) : null}
               <Pressable
@@ -124,48 +124,45 @@ function AppointmentsScreenContent() {
                 onPress={() => { closeMenu(); void signOut().catch((error) => toast.show(getUserFriendlyErrorMessage(error))); }}
                 accessibilityRole="menuitem"
               >
-                <Typography variant="label" color={colors.orange}>Sair</Typography>
+                <Typography variant="label" color={colors.coral}>Sair</Typography>
               </Pressable>
             </View>
           </Pressable>
         </>
       )}
-      <BlueHeader>
-        <View style={styles.topRow}>
-          <View style={styles.spacer} />
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Wordmark color={colors.white} size={30} />
-          </View>
-          <View style={styles.actions}>
-            <Pressable
-              ref={userMenuRef}
-              style={styles.userMenuTrigger}
-              onPress={openMenu}
-              accessibilityRole="button"
-              accessibilityLabel="Menu do usuário"
-              hitSlop={10}
-            >
-              <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
-                <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
-              </View>
-            </Pressable>
-          </View>
-        </View>
-
-        <Typography variant="display" size={28} color={colors.white} style={styles.greeting}>
-          Oi, {agenda.userName || 'Usuário'}.
-        </Typography>
-        <Typography variant="body" color={colors.whiteMuted} style={styles.summary}>
-          {agenda.summaryText}
-        </Typography>
-
-        <WeekStrip days={agenda.days} selectedISO={agenda.selected} onSelect={agenda.select} />
-      </BlueHeader>
+      <ScreenHeader
+        title="Minha agenda"
+        right={
+          <Pressable
+            ref={userMenuRef}
+            style={styles.userMenuTrigger}
+            onPress={openMenu}
+            accessibilityRole="button"
+            accessibilityLabel="Menu do usuário"
+            hitSlop={10}
+          >
+            <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
+              <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
+            </View>
+          </Pressable>
+        }
+      />
 
       {agenda.loading ? (
         <LoadingState />
       ) : (
         <ScrollView contentContainerStyle={[styles.list, { paddingBottom: 110 + insets.bottom }]} showsVerticalScrollIndicator={false}>
+          <View style={styles.greetingWrapper}>
+            <Typography variant="display" size={24} color={colors.tinta} style={styles.greeting}>
+              Oi, {agenda.userName || 'Usuário'}.
+            </Typography>
+            {agenda.summaryText && (
+              <Typography variant="body" color={colors.muted} style={styles.summary}>
+                {agenda.summaryText}
+              </Typography>
+            )}
+            {agenda.days.length > 0 && <WeekStrip days={agenda.days} selectedISO={agenda.selected} onSelect={agenda.select} />}
+          </View>
           {agenda.error ? <Typography variant="body" color={colors.orange}>{agenda.error}</Typography> : null}
           {agenda.appointments.length === 0 && <EmptyState message="Nada marcado para hoje." />}
           {agenda.appointments.map((item, i) => (
@@ -209,16 +206,17 @@ export default function AppointmentsScreen() {
 const styles = StyleSheet.create({
   topRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 12, position: 'relative' },
-  list: { paddingHorizontal: spacing.screen, paddingTop: 16, gap: 12 },
-  greeting: { marginTop: 16, lineHeight: 34 },
-  summary: { marginTop: 4 },
+  list: { paddingHorizontal: spacing.screen, paddingTop: 8, gap: 8 },
+  greetingWrapper: { gap: 2 },
+  greeting: { marginTop: 8, lineHeight: 30 },
+  summary: { marginTop: 2 },
   userMenuTrigger: { padding: 2 },
   userAvatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: colors.white },
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
-  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
-  userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
-  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.ink, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
+  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 },
+  userMenuPanelWrapper: { position: 'absolute', zIndex: 201, width: 180 },
+  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
-  userMenuItemDestructive: { backgroundColor: colors.orange + '10' },
+  userMenuItemDestructive: { backgroundColor: colors.coral + '10' },
   spacer: { width: 36 },
 });

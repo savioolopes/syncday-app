@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  selected: { backgroundColor: colors.blue, borderColor: colors.blue },
+  selected: { backgroundColor: colors.cobalto, borderColor: colors.cobalto },
   disabled: { backgroundColor: colors.disabled, borderColor: colors.disabled },
 });
 

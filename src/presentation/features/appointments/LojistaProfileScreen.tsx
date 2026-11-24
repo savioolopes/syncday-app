@@ -4,8 +4,8 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '../../../core/theme';
 import { Wordmark } from '../../components/brand/Logo';
-import { BlueHeader } from '../../components/ui/BlueHeader';
-import { BackButton } from '../../components/ui/BackButton';
+import { ScreenHeader } from '../../components/ui/ScreenHeader';
+import { SmartBackButton } from '../../components/ui/SmartBackButton';
 import { Button } from '../../components/ui/Button';
 import { Screen } from '../../components/ui/Screen';
 import { Typography } from '../../components/ui/Typography';
@@ -178,15 +178,10 @@ function LojistaProfileScreenContent() {
   if (loading) {
     return (
       <Screen background={colors.bg}>
-        <BlueHeader>
-          <View style={styles.topRow}>
-            <BackButton compact onPress={() => router.back()} />
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Wordmark color={colors.white} size={30} />
-            </View>
-            <View style={{ width: 36 }} />
-          </View>
-        </BlueHeader>
+        <ScreenHeader
+          title="Meu Perfil"
+          left={<SmartBackButton compact fallbackHref="/agenda-lojista" />}
+        />
       </Screen>
     );
   }
@@ -195,18 +190,10 @@ function LojistaProfileScreenContent() {
 
   return (
     <Screen background={colors.bg}>
-      <BlueHeader>
-        <View style={styles.topRow}>
-          <BackButton compact onPress={() => router.back()} />
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Wordmark color={colors.white} size={30} />
-          </View>
-          <View style={{ width: 36 }} />
-        </View>
-        <Typography variant="display" size={28} color={colors.white} style={styles.title}>
-          Meu Perfil
-        </Typography>
-      </BlueHeader>
+      <ScreenHeader
+        title="Meu Perfil"
+        left={<SmartBackButton compact fallbackHref="/agenda-lojista" />}
+      />
 
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: 100 + insets.bottom }]}
@@ -214,12 +201,12 @@ function LojistaProfileScreenContent() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.section}>
-          <Typography variant="label" color={colors.ink} style={styles.sectionTitle}>
+          <Typography variant="label" color={colors.tinta} style={styles.sectionTitle}>
             Dados do Lojista
           </Typography>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>Nome empresarial</Typography>
+            <Typography variant="label" color={colors.tinta}>Nome empresarial</Typography>
             <TextInput
               style={styles.input}
               value={form.nome}
@@ -230,7 +217,7 @@ function LojistaProfileScreenContent() {
           </View>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>Chave do logotipo</Typography>
+            <Typography variant="label" color={colors.tinta}>Chave do logotipo</Typography>
             <TextInput
               style={styles.input}
               value={form.logoKey}
@@ -244,7 +231,7 @@ function LojistaProfileScreenContent() {
           </View>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>CNPJ</Typography>
+            <Typography variant="label" color={colors.tinta}>CNPJ</Typography>
             <TextInput
               style={[styles.input, styles.inputDisabled]}
               value={form.cnpj}
@@ -257,7 +244,7 @@ function LojistaProfileScreenContent() {
           </View>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>Email</Typography>
+            <Typography variant="label" color={colors.tinta}>Email</Typography>
             <TextInput
               style={[styles.input, styles.inputDisabled]}
               value={form.email}
@@ -273,12 +260,12 @@ function LojistaProfileScreenContent() {
         </View>
 
         <View style={styles.section}>
-          <Typography variant="label" color={colors.ink} style={styles.sectionTitle}>
+          <Typography variant="label" color={colors.tinta} style={styles.sectionTitle}>
             Endereço
           </Typography>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>CEP</Typography>
+            <Typography variant="label" color={colors.tinta}>CEP</Typography>
             <TextInput
               style={styles.input}
               value={form.cep}
@@ -288,12 +275,12 @@ function LojistaProfileScreenContent() {
               maxLength={9}
               onBlur={handleCepBlur}
             />
-            {cepLoading && <Typography variant="caption" color={colors.blue}>Buscando endereço...</Typography>}
+            {cepLoading && <Typography variant="caption" color={colors.cobalto}>Buscando endereço...</Typography>}
           </View>
 
           <View style={styles.row}>
             <View style={{ flex: 1, marginRight: 8 }}>
-              <Typography variant="label" color={colors.ink}>Tipo de logradouro</Typography>
+              <Typography variant="label" color={colors.tinta}>Tipo de logradouro</Typography>
               <TextInput
                 style={styles.input}
                 value={form.tipoLogradouro}
@@ -302,7 +289,7 @@ function LojistaProfileScreenContent() {
               />
             </View>
             <View style={{ flex: 2 }}>
-              <Typography variant="label" color={colors.ink}>Logradouro</Typography>
+              <Typography variant="label" color={colors.tinta}>Logradouro</Typography>
               <TextInput
                 style={styles.input}
                 value={form.logradouro}
@@ -314,7 +301,7 @@ function LojistaProfileScreenContent() {
 
           <View style={styles.row}>
             <View style={{ flex: 1, marginRight: 8 }}>
-              <Typography variant="label" color={colors.ink}>Número</Typography>
+              <Typography variant="label" color={colors.tinta}>Número</Typography>
               <TextInput
                 style={styles.input}
                 value={form.numero}
@@ -324,7 +311,7 @@ function LojistaProfileScreenContent() {
               />
             </View>
             <View style={{ flex: 2 }}>
-              <Typography variant="label" color={colors.ink}>Complemento</Typography>
+              <Typography variant="label" color={colors.tinta}>Complemento</Typography>
               <TextInput
                 style={styles.input}
                 value={form.complemento}
@@ -335,7 +322,7 @@ function LojistaProfileScreenContent() {
           </View>
 
           <View style={styles.field}>
-            <Typography variant="label" color={colors.ink}>Bairro</Typography>
+            <Typography variant="label" color={colors.tinta}>Bairro</Typography>
             <TextInput
               style={styles.input}
               value={form.bairro}
@@ -346,7 +333,7 @@ function LojistaProfileScreenContent() {
 
           <View style={styles.row}>
             <View style={{ flex: 2, marginRight: 8 }}>
-              <Typography variant="label" color={colors.ink}>Cidade</Typography>
+              <Typography variant="label" color={colors.tinta}>Cidade</Typography>
               <TextInput
                 style={styles.input}
                 value={form.municipio}
@@ -355,7 +342,7 @@ function LojistaProfileScreenContent() {
               />
             </View>
             <View style={{ flex: 1 }}>
-              <Typography variant="label" color={colors.ink}>UF</Typography>
+              <Typography variant="label" color={colors.tinta}>UF</Typography>
               <TextInput
                 style={styles.input}
                 value={form.unidadeFederativa}
@@ -407,7 +394,7 @@ const styles = StyleSheet.create({
     color: colors.ink,
   },
   inputDisabled: {
-    backgroundColor: colors.bg,
+    backgroundColor: colors.nevoa,
     color: colors.muted,
   },
   helperText: { marginTop: 4 },

@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useCallback, useContext, useEffect, us
 import { Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { createContainer } from '../../core/di/container';
-import { setAccessToken, setLojistaAccessToken, setRefreshToken, getRefreshToken, clearTokens, getAccessToken } from '../../data/http/accessToken';
+import { setAccessToken, setLojistaAccessToken, setRefreshToken, getRefreshToken, clearTokens, getAccessToken, onTokensRefreshedSubscribe, onTokensRefreshedUnsubscribe } from '../../data/http/accessToken';
 import { AuthApiClient } from '../../data/http/AuthApiClient';
 import { AccountProfile, ProfileKind } from '../../domain/repositories';
 
@@ -131,6 +131,26 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       window.addEventListener('auth:refresh-failed', handleRefreshFailed);
       return () => window.removeEventListener('auth:refresh-failed', handleRefreshFailed);
     }
+  }, []);
+
+  // Escuta refresh de tokens bem-sucedido para atualizar sessão
+  useEffect(() => {
+    const handleTokensRefreshed = (newAccess: string, newRefresh: string) => {
+      setSession((current) => {
+        if (!current) return null;
+        const updated = { ...current, token: newAccess, refreshToken: newRefresh };
+        // Persist updated session
+        if (Platform.OS !== 'web') {
+          SecureStore.setItemAsync(SESSION_KEY, JSON.stringify(updated));
+        } else {
+          persistSession(updated);
+        }
+        return updated;
+      });
+    };
+
+    onTokensRefreshedSubscribe(handleTokensRefreshed);
+    return () => onTokensRefreshedUnsubscribe();
   }, []);
 
   const signIn = useCallback(async (

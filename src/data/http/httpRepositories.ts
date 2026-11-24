@@ -14,9 +14,9 @@ import { getAccessToken, getRefreshToken, setTokens, clearTokens, setLojistaAcce
 
 interface GradeDto {
   idGrade: string;
-  lojista: string;
-  estabelecimento: string;
-  servico: string;
+  idLojista: string;
+  idEstabelecimento: string | null;
+  idServico: string | null;
   segundaFeira: boolean;
   tercaFeira: boolean;
   quartaFeira: boolean;
@@ -24,9 +24,15 @@ interface GradeDto {
   sextaFeira: boolean;
   sabado: boolean;
   domingo: boolean;
+  horaInicio: string;
+  horaFim: string;
+  fracao: number;
+  capacidadeLimite: number;
+  periodo: number;
   dataInicioVigor: string;
-  dataFimVigor?: string;
+  dataFimVigor?: string | null;
   ativo: boolean;
+  horas: { diaSemana: string; gradeHorarios: { idGradeHorario: string; hora: string; capacidade: number; ativo: boolean }[] }[];
 }
 
 interface AvailabilityDto {
@@ -36,13 +42,14 @@ interface AvailabilityDto {
 
 interface AppointmentDto {
   idAgendamento: string;
-  lojista: string;
-  estabelecimento: string;
-  servico: string;
-  cliente: string;
+  idLojista: string;
+  idEstabelecimento: string;
+  idServico: string;
+  idCliente: string;
   statusAgendamento: 'EFETUADO' | 'AGENDADO' | 'CANCELADO' | 'NAO_COMPARECEU';
   dataAgendamento: string;
   horaAgendamento: string;
+  idGradeHorario?: string | null;
 }
 
 interface LoginResponseDto {
@@ -55,9 +62,14 @@ const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3
 const isValidUUID = (id: string): boolean => UUID_PATTERN.test(id);
 
 const asIsoDate = (date: string) => {
-  const [day, month, year] = date.split('/');
-  if (!day || !month || !year) throw new Error(`Data inválida recebida da API: ${date}`);
-  return `${year}-${month}-${day}`;
+  // Handle both DD/MM/YYYY and YYYY-MM-DD formats
+  if (date.includes('/')) {
+    const [day, month, year] = date.split('/');
+    if (!day || !month || !year) throw new Error(`Data inválida recebida da API: ${date}`);
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+  // Already in YYYY-MM-DD format
+  return date;
 };
 
 const asApiDate = (date: string) => {
@@ -67,6 +79,8 @@ const asApiDate = (date: string) => {
 };
 
 const mapGrade = (grade: GradeDto): Service => {
+  // Backend bug: idEstabelecimento e idServico vêm como null
+  // Aceitamos a grade mesmo assim; getAvailableSlots tentará usar os dados da própria grade (horas)
   const weekdays = [
     grade.domingo,
     grade.segundaFeira,
@@ -79,11 +93,11 @@ const mapGrade = (grade: GradeDto): Service => {
   const closedWeekdays = weekdays.flatMap((enabled, weekday) => (enabled ? [] : [weekday]));
   return {
     id: grade.idGrade,
-    name: `Serviço ${grade.servico.slice(0, 8)}`,
-    place: `Estabelecimento ${grade.estabelecimento.slice(0, 8)}`,
-    lojista: grade.lojista,
-    estabelecimento: grade.estabelecimento,
-    servico: grade.servico,
+    name: 'Serviço',
+    place: 'Estabelecimento',
+    lojista: grade.idLojista,
+    estabelecimento: grade.idEstabelecimento ?? '',
+    servico: grade.idServico ?? '',
     ativo: grade.ativo,
     diasAtendimento: weekdays.flatMap((enabled, weekday) => (enabled ? [weekday === 0 ? 7 : weekday] : [])),
     dataInicioVigor: asIsoDate(grade.dataInicioVigor),
@@ -94,8 +108,8 @@ const mapGrade = (grade: GradeDto): Service => {
 
 const mapAppointment = (appointment: AppointmentDto): Appointment => ({
   id: appointment.idAgendamento,
-  title: `Serviço ${appointment.servico.slice(0, 8)}`,
-  place: `Unidade ${appointment.estabelecimento.slice(0, 8)}`,
+  title: `Serviço ${appointment.idServico?.slice(0, 8) ?? '—'}`,
+  place: `Unidade ${appointment.idEstabelecimento?.slice(0, 8) ?? '—'}`,
   date: asIsoDate(appointment.dataAgendamento),
   time: appointment.horaAgendamento.slice(0, 5),
   status: ({
@@ -104,10 +118,10 @@ const mapAppointment = (appointment: AppointmentDto): Appointment => ({
     CANCELADO: 'cancelled',
     NAO_COMPARECEU: 'missed',
   } as const)[appointment.statusAgendamento],
-  clientId: appointment.cliente,
-  serviceId: appointment.servico,
-  establishmentId: appointment.estabelecimento,
-  lojistaId: appointment.lojista,
+  clientId: appointment.idCliente,
+  serviceId: appointment.idServico,
+  establishmentId: appointment.idEstabelecimento,
+  lojistaId: appointment.idLojista,
 });
 
 /** Repositório de autenticação que usa o usuario-service (IdP) centralizado */
@@ -342,11 +356,11 @@ export class HttpAppointmentRepository implements AppointmentRepository {
       headers['X-Expected-Client-Id'] = input.cliente;
     }
     await this.http.post('/agendamentos', {
-      lojista: input.lojista,
-      estabelecimento: input.estabelecimento,
-      servico: input.servico,
-      cliente: input.cliente,
-      gradeHorario: input.gradeHorario,
+      idLojista: input.lojista,
+      idEstabelecimento: input.estabelecimento,
+      idServico: input.servico,
+      idCliente: input.cliente,
+      idGradeHorario: input.gradeHorario,
       dataAgendamento: asApiDate(input.date),
       horaAgendamento: input.time,
     }, headers);
@@ -392,18 +406,21 @@ export class HttpServiceRepository implements ServiceRepository {
 
   async getAvailableSlots(serviceId: string, dateISO: string): Promise<Slot[]> {
     const service = await this.getById(serviceId);
-    const dates = await this.http.post<AvailabilityDto[]>('/agendamentos/datas-horarios-disponiveis', {
-      lojista: service.lojista,
-      estabelecimento: service.estabelecimento,
-      servico: service.servico,
+    const params = new URLSearchParams({
+      idLojista: service.lojista,
+      idEstabelecimento: service.estabelecimento,
+      idServico: service.servico,
     });
+    const dates = await this.http.get<AvailabilityDto[]>(`/agendamentos/datas-horarios-disponiveis?${params}`);
     const selected = dates.find((item) => asIsoDate(item.data) === dateISO);
-    return (selected?.horas ?? [])
-      .map((slot) => ({
-        gradeHorario: slot.gradeHorario,
-        time: slot.hora.slice(0, 5),
+    // Estrutura real: horas[] com gradeHorario e hora
+    const slots = (selected?.horas ?? [])
+      .filter((gh) => gh && typeof gh.hora === 'string' && gh.gradeHorario)
+      .map((gh) => ({
+        gradeHorario: gh.gradeHorario,
+        time: gh.hora.slice(0, 5),
         available: true,
-      }))
-      .sort((a, b) => a.time.localeCompare(b.time));
+      }));
+    return slots.sort((a, b) => a.time.localeCompare(b.time));
   }
 }

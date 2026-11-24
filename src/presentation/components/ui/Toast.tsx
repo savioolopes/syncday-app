@@ -26,10 +26,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: colors.ink,
+    backgroundColor: colors.tinta,
     borderRadius: radius.md,
     paddingVertical: 14,
     paddingHorizontal: 16,
   },
-  dot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.orange },
+  dot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.coral },
 });

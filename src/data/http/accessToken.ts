@@ -7,6 +7,9 @@ let accessToken: string | undefined;
 let refreshToken: string | undefined;
 let lojistaAccessToken: string | undefined;
 
+// Callbacks for token changes
+let onTokensRefreshed: ((access: string, refresh: string) => void) | undefined;
+
 // Inicializa do localStorage no browser
 if (typeof window !== 'undefined') {
   accessToken = localStorage.getItem(ACCESS_TOKEN_KEY) || undefined;
@@ -58,6 +61,8 @@ export function setTokens(access: string, refresh: string) {
   refreshToken = refresh;
   persistAccessToken(access);
   persistRefreshToken(refresh);
+  // Notify listeners of successful refresh
+  onTokensRefreshed?.(access, refresh);
 }
 
 export function clearTokens() {
@@ -80,4 +85,14 @@ export function setLojistaAccessToken(token: string | undefined) {
 
 export function getLojistaAccessToken() {
   return lojistaAccessToken;
+}
+
+/** Subscribe to token refresh events */
+export function onTokensRefreshedSubscribe(callback: (access: string, refresh: string) => void) {
+  onTokensRefreshed = callback;
+}
+
+/** Unsubscribe from token refresh events */
+export function onTokensRefreshedUnsubscribe() {
+  onTokensRefreshed = undefined;
 }

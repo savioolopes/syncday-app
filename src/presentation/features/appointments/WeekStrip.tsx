@@ -12,9 +12,15 @@ interface Props {
 }
 
 export function WeekStrip({ days, selectedISO, onSelect }: Props) {
+  if (days.length === 0) return null;
   return (
     <View style={styles.strip}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.days}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.days}
+        style={styles.scrollView}
+      >
         {days.map((d) => {
           const iso = toISO(d);
           const active = iso === selectedISO;
@@ -26,7 +32,7 @@ export function WeekStrip({ days, selectedISO, onSelect }: Props) {
               onPress={() => onSelect(iso)}
               style={[styles.chip, active && styles.chipActive]}
             >
-              <DayLabel date={d} color={active ? colors.blue : colors.whiteMuted} />
+              <DayLabel date={d} color={active ? colors.cobalto : colors.muted} />
             </Pressable>
           );
         })}
@@ -36,8 +42,9 @@ export function WeekStrip({ days, selectedISO, onSelect }: Props) {
 }
 
 const styles = StyleSheet.create({
-  strip: { marginTop: 14, backgroundColor: colors.glass, borderRadius: radius.md, padding: 4 },
-  days: { flexDirection: 'row', gap: 4 },
-  chip: { width: 58, alignItems: 'center', justifyContent: 'center', paddingVertical: 8, borderRadius: radius.sm },
+  strip: { marginTop: 8, backgroundColor: colors.nevoa, borderRadius: radius.md, padding: 4, minHeight: 52 },
+  scrollView: { },
+  days: { flexDirection: 'row', gap: 4, alignItems: 'center' },
+  chip: { width: 58, alignItems: 'center', justifyContent: 'center', paddingVertical: 6, borderRadius: radius.sm },
   chipActive: { backgroundColor: colors.white },
 });

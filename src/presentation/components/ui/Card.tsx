@@ -19,6 +19,6 @@ export function Card({ children, accent, style }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card: { backgroundColor: colors.white, borderRadius: radius.lg, padding: 16 },
+  card: { backgroundColor: colors.white, borderRadius: radius.card, padding: 16 },
   bar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 5 },
 });

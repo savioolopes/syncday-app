@@ -8,8 +8,8 @@ import { Typography } from '../../components/ui/Typography';
 export function ReminderNote({ text = 'A gente te lembra 1h antes.' }: { text?: string }) {
   return (
     <View style={styles.row}>
-      <IconTile background={colors.orangeSoft}>
-        <Feather name="bell" size={20} color={colors.orange} />
+      <IconTile background={colors.coralSoft}>
+        <Feather name="bell" size={20} color={colors.coral} />
       </IconTile>
       <Typography variant="body" color={colors.muted}>
         {text}

@@ -348,7 +348,7 @@ export default function RegistrationScreen() {
           showsVerticalScrollIndicator={false}
         >
           <Pressable accessibilityRole="button" onPress={() => router.replace('/login')} style={styles.back}>
-            <Typography variant="label" color={colors.blue}>‹  Voltar</Typography>
+            <Typography variant="label" color={colors.cobalto}>‹  Voltar</Typography>
           </Pressable>
 
           {completed ? (
@@ -361,7 +361,7 @@ export default function RegistrationScreen() {
               </Typography>
               {loginWarning ? (
                 <>
-                  <Typography variant="body" color={colors.orange}>{loginWarning}</Typography>
+                  <Typography variant="body" color={colors.coral}>{loginWarning}</Typography>
                   <Button label="Ir para entrar" onPress={() => router.replace('/login')} />
                 </>
               ) : null}
@@ -385,9 +385,9 @@ export default function RegistrationScreen() {
                     onPress={() => handleKindChange(option)}
                     style={styles.kindOption}
                     accessibilityLabel={option === 'cliente' ? 'Cadastrar como Cliente' : 'Cadastrar como Lojista'}
-                    textColor={kind === option ? colors.white : colors.ink}
+                    textColor={kind === option ? colors.white : colors.tinta}
                   >
-                    <Typography variant="label" color={kind === option ? colors.white : colors.ink}>
+                    <Typography variant="label" color={kind === option ? colors.white : colors.tinta}>
                       {option === 'cliente' ? 'Cliente' : 'Lojista'}
                     </Typography>
                   </SelectableTile>
@@ -413,7 +413,7 @@ export default function RegistrationScreen() {
                   rightElement={null}
                 />
                 {(emailExists) && (
-                  <Typography variant="caption" color={colors.blue} style={styles.emailHint}>
+                  <Typography variant="caption" color={colors.cobalto} style={styles.emailHint}>
                     Este e-mail já possui uma conta. Use a mesma senha para adicionar o perfil de {kind === 'cliente' ? 'Cliente' : 'Lojista'}.
                   </Typography>
                 )}
@@ -437,7 +437,7 @@ export default function RegistrationScreen() {
                   editable={!submitting}
                 />
                 {emailExists && (
-                  <Typography variant="caption" color={colors.blue} style={styles.emailHint}>
+                  <Typography variant="caption" color={colors.cobalto} style={styles.emailHint}>
                     A senha deve ser igual à da sua conta atual para vincular os perfis.
                   </Typography>
                 )}
@@ -476,7 +476,7 @@ export default function RegistrationScreen() {
                   style={styles.addressToggle}
                 >
                   <Typography variant="heading">Endereço (opcional)</Typography>
-                  <Typography variant="label" color={colors.blue}>
+                  <Typography variant="label" color={colors.cobalto}>
                     {showBusinessAddress ? 'Remover' : 'Adicionar'}
                   </Typography>
                 </Pressable>
@@ -494,7 +494,7 @@ export default function RegistrationScreen() {
                   style={styles.addressToggle}
                 >
                   <Typography variant="heading">Endereço do negócio (opcional)</Typography>
-                  <Typography variant="label" color={colors.blue}>
+                  <Typography variant="label" color={colors.cobalto}>
                     {showBusinessAddress ? 'Remover' : 'Adicionar'}
                   </Typography>
                 </Pressable>
@@ -512,8 +512,8 @@ export default function RegistrationScreen() {
                       editable={!submitting}
                     />
                     <View style={styles.cepStatus}>
-                      {cepLoading && <ActivityIndicator size="small" color={colors.blue} />}
-                      {cepError && <Typography variant="caption" color={colors.orange}>✗</Typography>}
+                      {cepLoading && <ActivityIndicator size="small" color={colors.cobalto} />}
+                      {cepError && <Typography variant="caption" color={colors.coral}>✗</Typography>}
                     </View>
                   </View>
                   <Field label="Logradouro" value={values.logradouro} onChangeText={field('logradouro')} placeholder="Rua das Flores" maxLength={255} editable={!submitting} />
@@ -538,11 +538,11 @@ export default function RegistrationScreen() {
               ) : null}
 
               {!process.env.EXPO_PUBLIC_API_URL ? (
-                <Typography variant="body" color={colors.orange} style={styles.error}>
-                  Configure EXPO_PUBLIC_API_URL antes de cadastrar.
+                <Typography variant="body" color={colors.coral} style={styles.error}>
+                  Servidor não configurado. Contate o administrador.
                 </Typography>
               ) : null}
-              {error ? <Typography variant="body" color={colors.orange} style={styles.error}>{error}</Typography> : null}
+              {error ? <Typography variant="body" color={colors.coral} style={styles.error}>{error}</Typography> : null}
               {progress ? <Typography variant="caption" color={colors.muted}>{progress}</Typography> : null}
 
               <Button
@@ -584,7 +584,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderRadius: radius.md,
     paddingHorizontal: 14,
-    color: colors.ink,
+    color: colors.tinta,
     backgroundColor: colors.white,
     fontSize: 16,
     flex: 1,

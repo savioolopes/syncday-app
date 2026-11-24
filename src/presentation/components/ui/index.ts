@@ -1,5 +1,6 @@
 export * from './BackButton';
 export * from './BlueHeader';
+export * from './SmartBackButton';
 export * from './Button';
 export * from './Card';
 export * from './DayLabel';

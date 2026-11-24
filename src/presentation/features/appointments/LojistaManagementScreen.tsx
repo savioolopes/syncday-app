@@ -18,8 +18,8 @@ import { Card } from '../../components/ui/Card';
 import { EmptyState, LoadingState } from '../../components/ui/States';
 import { Screen } from '../../components/ui/Screen';
 import { Typography } from '../../components/ui/Typography';
-import { BackButton } from '../../components/ui/BackButton';
-import { BlueHeader } from '../../components/ui/BlueHeader';
+import { SmartBackButton } from '../../components/ui/SmartBackButton';
+import { ScreenHeader } from '../../components/ui/ScreenHeader';
 import { Wordmark } from '../../components/brand/Logo';
 import { colors, radius, spacing } from '../../../core/theme';
 import { useApp } from '../../providers/AppProviders';
@@ -131,7 +131,7 @@ function InputField({
 }) {
   return (
     <View style={styles.field}>
-      <Typography variant="label">{label}</Typography>
+      <Typography variant="label" color={colors.tinta}>{label}</Typography>
       <TextInput
         accessibilityLabel={label}
         autoCapitalize={autoCapitalize}
@@ -140,7 +140,7 @@ function InputField({
         maxLength={maxLength}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={colors.disabledText}
+        placeholderTextColor={colors.muted}
         style={styles.input}
         value={value}
       />
@@ -231,7 +231,7 @@ function LojistaManagementScreenContent() {
 
   const load = useCallback(async (): Promise<Configuration> => {
     if (!lojistaProfile) throw new Error('Não foi possível identificar o perfil Lojista da sessão.');
-    if (!session?.lojistaToken) throw new Error('Sua sessão não tem acesso à API de Lojista. Saia e entre novamente.');
+    if (!session?.lojistaToken) throw new Error('Sua sessão expirou. Saia e entre novamente.');
     const establishments = await usecases.manageLojistaConfiguration.listEstablishments(lojistaProfile.id);
     const [services, grids] = await Promise.all([
       usecases.manageLojistaConfiguration.listServices(establishments.map((item) => item.id)),
@@ -472,7 +472,7 @@ function LojistaManagementScreenContent() {
                   accessibilityRole="menuitem"
                   hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
                 >
-                  <Typography variant="label" color={colors.ink}>Trocar perfil</Typography>
+                  <Typography variant="label" color={colors.tinta}>Trocar perfil</Typography>
                 </Pressable>
               ) : null}
               <Pressable
@@ -481,40 +481,30 @@ function LojistaManagementScreenContent() {
                 accessibilityRole="menuitem"
                 hitSlop={{ left: 20, right: 20, top: 10, bottom: 10 }}
               >
-                <Typography variant="label" color={colors.orange}>Sair</Typography>
+                <Typography variant="label" color={colors.coral}>Sair</Typography>
               </Pressable>
             </View>
           </Pressable>
         </>
       )}
-      <BlueHeader style={{ paddingBottom: 22 }}>
-        <View style={styles.topRow}>
-          <BackButton compact onPress={() => router.replace('/agenda-lojista')} />
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Wordmark color={colors.white} size={30} />
-          </View>
-          <View style={styles.actions}>
-            <Pressable
-              ref={userMenuRef}
-              style={styles.userMenuTrigger}
-              onPress={openMenu}
-              accessibilityRole="button"
-              accessibilityLabel="Menu do usuário"
-              hitSlop={10}
-            >
-              <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
-                <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
-              </View>
-            </Pressable>
-          </View>
-        </View>
-        <Typography variant="display" color={colors.white} style={{ marginTop: 18 }}>
-          Configurar atendimento
-        </Typography>
-        <Typography variant="body" size={17} color={colors.whiteMuted} style={{ marginTop: 4 }}>
-          Cadastre suas unidades, serviços e horários disponíveis para agendamento.
-        </Typography>
-      </BlueHeader>
+      <ScreenHeader
+        title="Configurar atendimento"
+        left={<SmartBackButton compact fallbackHref="/agenda-lojista" />}
+        right={
+          <Pressable
+            ref={userMenuRef}
+            style={styles.userMenuTrigger}
+            onPress={openMenu}
+            accessibilityRole="button"
+            accessibilityLabel="Menu do usuário"
+            hitSlop={10}
+          >
+            <View style={[styles.userAvatar, styles.userAvatarPlaceholder]}>
+              <Typography variant="label" color={colors.white} size={16}>{userInitial}</Typography>
+            </View>
+          </Pressable>
+        }
+      />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -540,7 +530,7 @@ function LojistaManagementScreenContent() {
                 <Typography
                   variant="label"
                   size={14}
-                  color={section === id ? colors.white : colors.ink}
+                  color={section === id ? colors.white : colors.tinta}
                 >
                   {title}
                 </Typography>
@@ -548,16 +538,10 @@ function LojistaManagementScreenContent() {
             ))}
           </View>
 
-          <Card style={styles.notice}>
-            <Typography variant="caption" color={colors.muted}>
-              Unidades e serviços são salvos na API do Lojista. As grades e horários são salvos na API de Agendamento.
-            </Typography>
-          </Card>
-
           {configuration.loading && !data ? <LoadingState /> : null}
           {configuration.error ? (
             <Card style={styles.errorCard}>
-              <Typography variant="body" color={colors.orange}>
+              <Typography variant="body" color={colors.coral}>
                 {getUserFriendlyErrorMessage(configuration.error)}
               </Typography>
               <Button label="Tentar novamente" variant="outline" onPress={configuration.reload} />
@@ -636,12 +620,12 @@ function LojistaManagementScreenContent() {
                       maxLength={8}
                     />
                     <View style={styles.cepStatus}>
-                      {cepStatus === 'loading' && <ActivityIndicator size="small" color={colors.blue} />}
+                      {cepStatus === 'loading' && <ActivityIndicator size="small" color={colors.cobalto} />}
                       {cepStatus === 'success' && (
-                        <Typography variant="caption" color={colors.green}>✓</Typography>
+                        <Typography variant="caption" color={colors.menta}>✓</Typography>
                       )}
                       {cepStatus === 'error' && (
-                        <Typography variant="caption" color={colors.orange}>✗</Typography>
+                        <Typography variant="caption" color={colors.coral}>✗</Typography>
                       )}
                     </View>
                   </View>
@@ -814,7 +798,7 @@ function LojistaManagementScreenContent() {
               <Typography variant="title">Excluir {deleteTarget.name}?</Typography>
               <Typography variant="caption" color={colors.muted}>
                 {deleteTarget.section === 'establishments'
-                  ? 'A API também remove associações desse local com serviços. Grades relacionadas podem precisar ser removidas separadamente.'
+                  ? 'Isso também removerá associações dessa unidade com serviços. Grades relacionadas podem precisar ser removidas separadamente.'
                   : 'Essa ação não pode ser desfeita.'}
               </Typography>
               <View style={styles.formActions}>
@@ -883,16 +867,16 @@ function ResourceCard({
           <Typography variant="caption" color={colors.muted}>{subtitle}</Typography>
           {detail ? <Typography variant="caption" color={colors.muted}>{detail}</Typography> : null}
         </View>
-        <Typography variant="label" size={13} color={active ? colors.green : colors.muted}>
+        <Typography variant="label" size={13} color={active ? colors.menta : colors.muted}>
           {active ? 'Ativo' : 'Inativo'}
         </Typography>
       </View>
       <View style={styles.resourceActions}>
         <Pressable accessibilityRole="button" onPress={onEdit} style={styles.textAction}>
-          <Typography variant="label" color={colors.blue}>Editar</Typography>
+          <Typography variant="label" color={colors.cobalto}>Editar</Typography>
         </Pressable>
         <Pressable accessibilityRole="button" onPress={onDelete} style={styles.textAction}>
-          <Typography variant="label" color={colors.orange}>Excluir</Typography>
+          <Typography variant="label" color={colors.coral}>Excluir</Typography>
         </Pressable>
       </View>
     </Card>
@@ -905,7 +889,7 @@ const styles = StyleSheet.create({
   intro: { marginTop: -8 },
   sectionTabs: { flexDirection: 'row', backgroundColor: colors.disabled, padding: 4, borderRadius: radius.md },
   sectionTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm },
-  sectionTabSelected: { backgroundColor: colors.blue },
+  sectionTabSelected: { backgroundColor: colors.cobalto },
   notice: { padding: 12 },
   errorCard: { gap: 10 },
   addButton: { marginTop: 2 },
@@ -917,7 +901,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderRadius: radius.sm,
     paddingHorizontal: 12,
-    color: colors.ink,
+    color: colors.tinta,
     backgroundColor: colors.white,
     fontFamily: 'Inter_400Regular',
     fontSize: 16,
@@ -929,7 +913,7 @@ const styles = StyleSheet.create({
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   choices: { gap: 8 },
   chip: { minHeight: 38, paddingHorizontal: 12, borderRadius: 20, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
-  chipSelected: { borderColor: colors.blue, backgroundColor: colors.blue },
+  chipSelected: { borderColor: colors.cobalto, backgroundColor: colors.cobalto },
   formActions: { flexDirection: 'row', gap: 10, marginTop: 4 },
   actionButton: { flex: 1 },
   list: { gap: 12 },
@@ -941,15 +925,15 @@ const styles = StyleSheet.create({
   resourceText: { flex: 1, gap: 4 },
   resourceActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 20 },
   textAction: { padding: 6 },
-  deleteCard: { gap: 12, borderWidth: 1, borderColor: colors.orange },
+  deleteCard: { gap: 12, borderWidth: 1, borderColor: colors.coral },
   topRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   userMenuTrigger: { padding: 2 },
   userAvatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: colors.white },
   userAvatarPlaceholder: { backgroundColor: colors.glass, justifyContent: 'center', alignItems: 'center' },
-  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50 },
-  userMenuPanelWrapper: { position: 'absolute', zIndex: 51, width: 180 },
-  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.ink, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
+  userMenuBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 },
+  userMenuPanelWrapper: { position: 'absolute', zIndex: 201, width: 180 },
+  userMenuPanel: { backgroundColor: colors.white, borderRadius: radius.md, padding: 4, shadowColor: colors.tinta, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 8, elevation: 10 },
   userMenuItem: { paddingVertical: 18, paddingHorizontal: 20, borderRadius: radius.sm, width: '100%' },
-  userMenuItemDestructive: { backgroundColor: colors.orange + '10' },
+  userMenuItemDestructive: { backgroundColor: colors.coral + '10' },
 });

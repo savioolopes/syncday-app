@@ -58,7 +58,7 @@ export default function LoginScreen() {
         ) : null}
         {!process.env.EXPO_PUBLIC_API_URL ? (
           <Text style={styles.error}>
-            Configure EXPO_PUBLIC_API_URL para conectar ao backend.
+            Servidor não configurado. Contate o administrador.
           </Text>
         ) : null}
 
@@ -117,7 +117,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, justifyContent: 'center', paddingHorizontal: spacing.screen, gap: 24 },
   hero: { alignItems: 'center', marginBottom: 4 },
-  error: { color: colors.orange, textAlign: 'center', marginBottom: 8 },
+  error: { color: colors.coral, textAlign: 'center', marginBottom: 8 },
   formCard: { width: '100%', maxWidth: 340, alignSelf: 'center', gap: 0, marginBottom: 16 },
   inputEmail: {
     minHeight: 56,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     paddingHorizontal: 16,
-    color: colors.ink,
+    color: colors.tinta,
     backgroundColor: colors.white,
   },
   inputPassword: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: radius.md,
     borderBottomRightRadius: radius.md,
     paddingHorizontal: 16,
-    color: colors.ink,
+    color: colors.tinta,
     backgroundColor: colors.white,
   },
   buttonWrapper: { width: '100%', maxWidth: 340, alignSelf: 'center', marginBottom: 8 },
@@ -148,5 +148,5 @@ const styles = StyleSheet.create({
   forgotPassword: { alignItems: 'center', paddingVertical: 8, alignSelf: 'center' },
   microCopy: { color: colors.muted, textAlign: 'center', marginTop: 12 },
   button: { width: '100%' },
-  linkText: { color: colors.blue },
+  linkText: { color: colors.cobalto },
 });

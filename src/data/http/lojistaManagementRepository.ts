@@ -25,7 +25,7 @@ interface AddressDto {
 
 interface EstablishmentDto {
   idEstabelecimento: string;
-  lojista: string;
+  idLojista: string;
   nome: string;
   cnpj: string;
   email: string;
@@ -39,15 +39,15 @@ interface ServiceDto {
   nome: string;
   preco: number | null;
   descricao?: string | null;
-  estabelecimentos: string[];
+  idEstabelecimentos: string[];
   ativo: boolean;
 }
 
 interface GridDto {
   idGrade: string;
-  lojista: string;
-  estabelecimento: string;
-  servico: string;
+  idLojista: string;
+  idEstabelecimento: string | null;
+  idServico: string | null;
   segundaFeira: boolean;
   tercaFeira: boolean;
   quartaFeira: boolean;
@@ -63,11 +63,12 @@ interface GridDto {
   dataInicioVigor: string;
   dataFimVigor?: string | null;
   ativo: boolean;
+  horas?: { diaSemana: string; gradeHorarios: { idGradeHorario: string; hora: string; capacidade: number; ativo: boolean }[] }[];
 }
 
 const mapEstablishment = (item: EstablishmentDto): Establishment => ({
   id: item.idEstabelecimento,
-  lojistaId: item.lojista,
+  lojistaId: item.idLojista,
   name: item.nome,
   cnpj: item.cnpj,
   email: item.email,
@@ -90,7 +91,7 @@ const mapService = (item: ServiceDto): OfferedService => ({
   name: item.nome,
   price: item.preco,
   description: item.descricao ?? '',
-  establishmentIds: item.estabelecimentos ?? [],
+  establishmentIds: item.idEstabelecimentos ?? [],
   active: item.ativo,
 });
 
@@ -108,9 +109,9 @@ const isoDateToApi = (value: string) => {
 
 const mapGrid = (item: GridDto): AvailabilityGrid => ({
   id: item.idGrade,
-  lojistaId: item.lojista,
-  establishmentId: item.estabelecimento,
-  serviceId: item.servico,
+  lojistaId: item.idLojista,
+  establishmentId: item.idEstabelecimento ?? '',
+  serviceId: item.idServico ?? '',
   weekdays: [
     item.domingo,
     item.segundaFeira,
@@ -147,14 +148,14 @@ export class HttpLojistaManagementRepository implements LojistaManagementReposit
 
   async listEstablishments(lojistaId: string) {
     const items = await listOrEmpty(() => this.lojistaHttp.get<EstablishmentDto[]>('/estabelecimentos'));
-    return items.filter((item) => item.lojista === lojistaId).map(mapEstablishment);
+    return items.filter((item) => item.idLojista === lojistaId).map(mapEstablishment);
   }
 
   async saveEstablishment(lojistaId: string, input: EstablishmentInput, id?: string) {
     if (!isValidUUID(lojistaId)) throw new Error('Invalid lojista ID format');
     if (id && !isValidUUID(id)) throw new Error('Invalid establishment ID format');
     const body = {
-      lojista: lojistaId,
+      idLojista: lojistaId,
       nome: input.name.trim(),
       cnpj: input.cnpj.replace(/\D/g, ''),
       email: input.email.trim(),
@@ -192,7 +193,7 @@ export class HttpLojistaManagementRepository implements LojistaManagementReposit
       nome: input.name.trim(),
       preco: input.price,
       descricao: input.description.trim() || null,
-      estabelecimentos: input.establishmentIds,
+      idEstabelecimentos: input.establishmentIds,
     };
     const response = id
       ? await this.lojistaHttp.put<ServiceDto>(`/servicos/${id}`, body)
@@ -209,7 +210,7 @@ export class HttpLojistaManagementRepository implements LojistaManagementReposit
     const items = await listOrEmpty(() =>
       this.schedulingHttp.get<GridDto[]>('/grades?statusAgendamento=TODOS')
     );
-    return items.filter((item) => item.lojista === lojistaId).map(mapGrid);
+    return items.filter((item) => item.idLojista === lojistaId).map(mapGrid);
   }
 
   async saveGrid(lojistaId: string, input: AvailabilityGridInput, id?: string) {
@@ -220,9 +221,9 @@ export class HttpLojistaManagementRepository implements LojistaManagementReposit
     const [domingo, segundaFeira, tercaFeira, quartaFeira, quintaFeira, sextaFeira, sabado] =
       Array.from({ length: 7 }, (_, weekday) => input.weekdays.includes(weekday));
     const body = {
-      lojista: lojistaId,
-      estabelecimento: input.establishmentId,
-      servico: input.serviceId,
+      idLojista: lojistaId,
+      idEstabelecimento: input.establishmentId,
+      idServico: input.serviceId,
       domingo,
       segundaFeira,
       tercaFeira,
