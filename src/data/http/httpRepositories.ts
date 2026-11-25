@@ -157,51 +157,33 @@ export class HttpAuthenticationRepository implements AuthenticationRepository {
     const refreshToken = authResponse.refreshToken;
     const user = authResponse.user;
 
-    // 2. Descobre perfis disponíveis (cliente e/ou lojista)
+    // 2. Descobre perfis disponíveis usando o claim servicos_autorizados do JWT
+    // O claim "servicos_autorizados" indica quais serviços o usuário pode acessar
+    // - "cliente" → perfil Cliente
+    // - "lojista" → perfil Lojista
+    // - "gestao", "agendamento" são serviços internos, não perfis de usuário
+    const authorizedServices = user.servicosAutorizados ?? [];
+
     const profiles: AccountProfile[] = [];
 
-    // Se o login é um UUID, assume que é cliente direto
-    if (UUID_PATTERN.test(normalizedLogin)) {
-      return {
-        token: accessToken,
-        refreshToken,
-        profiles: [{ kind: 'cliente', id: normalizedLogin, name: normalizedLogin.slice(0, 8) }],
-      };
+    // Perfil Cliente: tem acesso ao serviço "cliente"
+    if (authorizedServices.includes('cliente')) {
+      // Se knownClientId/knownClientName foram fornecidos (pós-registro), usa-os
+      // Caso contrário, usa o ID do usuário (subject do JWT) como ID do cliente
+      const clientId = knownClientId ?? user.idUsuario;
+      const clientName = knownClientName ?? user.login;
+      profiles.push({ kind: 'cliente', id: clientId, name: clientName });
     }
 
-    const email = normalizedLogin.toLowerCase();
-
-    // Busca perfil de cliente (se existir)
-    // Se knownClientId/knownClientName forem fornecidos, usa-os diretamente (pós-registro)
-    if (knownClientId && knownClientName) {
-      profiles.push({ kind: 'cliente', id: knownClientId, name: knownClientName });
-    } else {
-      try {
-        const clientHttp = new HttpClient(this.clientApiUrl, () => accessToken);
-        const clients = await clientHttp.get<{ idCliente: string; nome: string; email: string }[]>(
-          `/clientes?email=${encodeURIComponent(email)}`
-        );
-        const client = clients.find((item) => item.email.toLowerCase() === email);
-        if (client) {
-          profiles.push({ kind: 'cliente', id: client.idCliente, name: client.nome });
-        }
-      } catch (error) {
-        if (!(error instanceof HttpError && error.status === 404)) throw error;
-      }
+    // Perfil Lojista: tem acesso ao serviço "lojista"
+    if (authorizedServices.includes('lojista')) {
+      // Para lojista, o ID também é o subject do JWT (idUsuario)
+      profiles.push({ kind: 'lojista', id: user.idUsuario, name: user.login });
     }
 
-    // Busca perfil de lojista (se existir)
-    try {
-      const lojistaHttp = new HttpClient(this.lojistaApiUrl, () => accessToken);
-      const lojistas = await lojistaHttp.get<{ idLojista: string; nome: string; email: string }[]>(
-        `/lojistas?email=${encodeURIComponent(email)}`
-      );
-      const lojista = lojistas.find((item) => item.email.toLowerCase() === email);
-      if (lojista) {
-        profiles.push({ kind: 'lojista', id: lojista.idLojista, name: lojista.nome });
-      }
-    } catch (error) {
-      if (!(error instanceof HttpError && error.status === 404)) throw error;
+    // Fallback: se o login é UUID, assume cliente direto (compatibilidade)
+    if (profiles.length === 0 && UUID_PATTERN.test(normalizedLogin)) {
+      profiles.push({ kind: 'cliente', id: normalizedLogin, name: normalizedLogin.slice(0, 8) });
     }
 
     if (profiles.length === 0) {

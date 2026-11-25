@@ -7,11 +7,11 @@ export interface LoginResponse {
   tokenType: string;
   expiresIn: number;
   user: {
-    id: string;
+    idUsuario: string;
     login: string;
     role: string;
     permissions: string[];
-    authorizedServices: string[];
+    servicosAutorizados: string[];
   };
 }
 
@@ -35,11 +35,11 @@ export interface RefreshResponse {
   tokenType: string;
   expiresIn: number;
   user: {
-    id: string;
+    idUsuario: string;
     login: string;
     role: string;
     permissions: string[];
-    authorizedServices: string[];
+    servicosAutorizados: string[];
   };
 }
 

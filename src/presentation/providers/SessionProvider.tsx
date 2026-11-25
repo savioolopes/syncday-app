@@ -70,6 +70,21 @@ function normalizeStoredSession(value: unknown): Session {
   };
 }
 
+/** Verifica se um token JWT está expirado (decodifica o payload e checa exp) */
+function isTokenExpired(token: string): boolean {
+  try {
+    const payload = token.split('.')[1];
+    if (!payload) return true;
+    const decoded = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+    const exp = decoded.exp;
+    if (!exp) return true;
+    // exp está em segundos, Date.now() em ms
+    return Date.now() >= exp * 1000;
+  } catch {
+    return true; // Se não conseguir decodificar, considera expirado
+  }
+}
+
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
@@ -92,6 +107,17 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         } else {
           // Web: restaura do localStorage
           restored = restoreSession();
+        }
+
+        // Validar expiração do token antes de restaurar a sessão
+        // Se o token estiver expirado, limpar localStorage e não restaurar
+        if (restored && isTokenExpired(restored.token)) {
+          console.log('[SessionProvider] Token expirado, limpando sessão salva');
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem(SESSION_KEY);
+            localStorage.removeItem(REFRESH_TOKEN_KEY);
+          }
+          restored = null;
         }
 
         if (restored) {
